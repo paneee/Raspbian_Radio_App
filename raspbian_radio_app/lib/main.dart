@@ -87,15 +87,33 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            for (var item in radioTest)
-              IconButton(icon: Icon(Icons.delete), onPressed: () => null),
-            IconButton(icon: Icon(Icons.delete), onPressed: () => null),
-            IconButton(icon: Icon(Icons.delete), onPressed: () => null),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 20)),
+            ButtonTheme(
+              minWidth: 200.0,
+              height: 100.0,
+              child: ElevatedButton(
                 onPressed: () {},
-                child: Text('Enabled')),
+                child: Text("Play"),
+              ),
+            ),
+            ButtonTheme(
+              minWidth: 200.0,
+              height: 100.0,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Text("Stop"),
+              ),
+            ),
+
+            DropdownButton<WebRadio>(
+              items: radioTest.map((e) => null) {
+                return DropdownMenuItem<WebRadio>(
+                  value: value,
+                  child: new Text(value),
+                );
+              }).toList(),
+              onChanged: (_) {},
+            ),
+            
             FutureBuilder<List<WebRadio>>(
               future: futureRadioList,
               builder: (context, snapshot) {
@@ -127,6 +145,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+class ( {
+}
+
+class ( {
 }
 
 class ListViewBuilder extends StatelessWidget {
