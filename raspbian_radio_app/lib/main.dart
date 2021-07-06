@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'Api.dart';
 import 'WebRadios.dart';
 
@@ -51,11 +50,23 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   late Future<List<WebRadio>> futureRadioList;
+  late List<WebRadio> radioTest = [
+    (new WebRadio(name: "pierwsze", url: "www.onet.pl")),
+    (new WebRadio(name: "drugie", url: "www.onet.pl")),
+    (new WebRadio(name: "trzecie", url: "www.onet.pl")),
+    (new WebRadio(name: "czwarte", url: "www.onet.pl")),
+    (new WebRadio(name: "piate", url: "www.onet.pl")),
+  ];
 
   @override
   void initState() {
     super.initState();
     futureRadioList = getRadios();
+    // radioTest.add(new WebRadio(name: "pierwsze", url: "www.onet.pl"));
+    // radioTest.add(new WebRadio(name: "drugie", url: "www.onet.pl"));
+    // radioTest.add(new WebRadio(name: "trzecie", url: "www.onet.pl"));
+    // radioTest.add(new WebRadio(name: "czwarte", url: "www.onet.pl"));
+    // radioTest.add(new WebRadio(name: "piate", url: "www.onet.pl"));
   }
 
   void _incrementCounter() {
@@ -76,6 +87,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            for (var item in radioTest)
+              IconButton(icon: Icon(Icons.delete), onPressed: () => null),
+            IconButton(icon: Icon(Icons.delete), onPressed: () => null),
+            IconButton(icon: Icon(Icons.delete), onPressed: () => null),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 20)),
+                onPressed: () {},
+                child: Text('Enabled')),
             FutureBuilder<List<WebRadio>>(
               future: futureRadioList,
               builder: (context, snapshot) {
@@ -105,6 +125,26 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class ListViewBuilder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("ListView.builder")),
+      body: ListView.builder(
+          itemCount: 5,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+                leading: Icon(Icons.list),
+                trailing: Text(
+                  "GFG",
+                  style: TextStyle(color: Colors.green, fontSize: 15),
+                ),
+                title: Text("List item $index"));
+          }),
     );
   }
 }
