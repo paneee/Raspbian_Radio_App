@@ -57,22 +57,26 @@ class _MyHomePageState extends State<MyHomePage> {
     (new WebRadio(name: "czwarte", url: "www.onet.pl")),
     (new WebRadio(name: "piate", url: "www.onet.pl")),
   ];
+  late List<String> radioName;
+
+  int _value = 0;
+  int i = 0;
+  String _myState = "";
+  String dropdownValue = "One";
 
   @override
   void initState() {
     super.initState();
     futureRadioList = getRadios();
-    // radioTest.add(new WebRadio(name: "pierwsze", url: "www.onet.pl"));
-    // radioTest.add(new WebRadio(name: "drugie", url: "www.onet.pl"));
-    // radioTest.add(new WebRadio(name: "trzecie", url: "www.onet.pl"));
-    // radioTest.add(new WebRadio(name: "czwarte", url: "www.onet.pl"));
-    // radioTest.add(new WebRadio(name: "piate", url: "www.onet.pl"));
+
+    for (var item in radioTest) {
+      radioName.add(item.name);
+    }
   }
 
   void _incrementCounter() {
     setState(() {
       futureRadioList = getRadios();
-      print('dddd');
       _counter++;
     });
   }
@@ -87,6 +91,28 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            DropdownButton<String>(
+              value: dropdownValue,
+              icon: const Icon(Icons.arrow_downward),
+              iconSize: 24,
+              elevation: 16,
+              style: const TextStyle(color: Colors.deepPurple),
+              underline: Container(
+                height: 2,
+                color: Colors.deepPurpleAccent,
+              ),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                });
+              },
+              items: radioName.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
             ButtonTheme(
               minWidth: 200.0,
               height: 100.0,
@@ -103,17 +129,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text("Stop"),
               ),
             ),
-
-            DropdownButton<WebRadio>(
-              items: radioTest.map((e) => null) {
-                return DropdownMenuItem<WebRadio>(
-                  value: value,
-                  child: new Text(value),
-                );
-              }).toList(),
-              onChanged: (_) {},
-            ),
-            
             FutureBuilder<List<WebRadio>>(
               future: futureRadioList,
               builder: (context, snapshot) {
@@ -143,32 +158,6 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}
-
-class ( {
-}
-
-class ( {
-}
-
-class ListViewBuilder extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("ListView.builder")),
-      body: ListView.builder(
-          itemCount: 5,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-                leading: Icon(Icons.list),
-                trailing: Text(
-                  "GFG",
-                  style: TextStyle(color: Colors.green, fontSize: 15),
-                ),
-                title: Text("List item $index"));
-          }),
     );
   }
 }
