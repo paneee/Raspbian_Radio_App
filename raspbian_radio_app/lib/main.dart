@@ -48,7 +48,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   late Future<List<WebRadio>> futureRadioList;
   late List<WebRadio> radioTest = [
     (new WebRadio(name: "pierwsze", url: "www.onet.pl")),
@@ -58,24 +57,15 @@ class _MyHomePageState extends State<MyHomePage> {
     (new WebRadio(name: "piate", url: "www.onet.pl")),
   ];
 
-  int _value = 0;
   int i = 0;
-  String _myState = "";
   String dropdownValue = "One";
-  WebRadio webRadioSelectedItem =
-      new WebRadio(name: "szoste", url: "www.onet.pl");
+  WebRadio? webRadioSelectedItem;
 
   @override
   void initState() {
     super.initState();
+    webRadioSelectedItem = radioTest.first;
     futureRadioList = getRadios();
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      futureRadioList = getRadios();
-      _counter++;
-    });
   }
 
   @override
@@ -105,45 +95,52 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             DropdownButton<WebRadio>(
-              items: radioTest.map((WebRadio value) {
+              value: webRadioSelectedItem,
+              hint: Text("Select Category"),
+              items: radioTest.map((WebRadio webRadio) {
                 return DropdownMenuItem<WebRadio>(
-                  value: value,
-                  child: new Text(value.name),
+                  value: webRadio,
+                  child: new Text(webRadio.name!),
                 );
               }).toList(),
-              onChanged: (_) {},
-            ),
-            FutureBuilder<List<WebRadio>>(
-              future: futureRadioList,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Text(snapshot.data!.first.url);
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-                return CircularProgressIndicator();
+              onChanged: (webRadio) {
+                setState(() {
+                  webRadioSelectedItem = webRadio;
+                  //print(webRadioSelectedItem!.name);
+                });
               },
             ),
-            Text('Moj tekst'),
-            FutureBuilder<List<WebRadio>>(
-              future: futureRadioList,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return DropdownButton<WebRadio>(
-                    items: snapshot.data!.map((WebRadio value) {
-                      return DropdownMenuItem<WebRadio>(
-                        value: value,
-                        child: new Text(value.name),
-                      );
-                    }).toList(),
-                    onChanged: (_) {},
-                  );
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-                return CircularProgressIndicator();
-              },
-            )
+            // FutureBuilder<List<WebRadio>>(
+            //   future: futureRadioList,
+            //   builder: (context, snapshot) {
+            //     if (snapshot.hasData) {
+            //       return Text(snapshot.data!.first.url);
+            //     } else if (snapshot.hasError) {
+            //       return Text("${snapshot.error}");
+            //     }
+            //     return CircularProgressIndicator();
+            //   },
+            // ),
+            // Text('Moj tekst'),
+            // FutureBuilder<List<WebRadio>>(
+            //   future: futureRadioList,
+            //   builder: (context, snapshot) {
+            //     if (snapshot.hasData) {
+            //       return DropdownButton<WebRadio>(
+            //         items: snapshot.data!.map((WebRadio value) {
+            //           return DropdownMenuItem<WebRadio>(
+            //             value: value,
+            //             child: new Text(value.name),
+            //           );
+            //         }).toList(),
+            //         onChanged: (_) {},
+            //       );
+            //     } else if (snapshot.hasError) {
+            //       return Text("${snapshot.error}");
+            //     }
+            //     return CircularProgressIndicator();
+            //   },
+            // )
           ],
         ),
       ),
