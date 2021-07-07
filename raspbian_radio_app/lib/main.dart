@@ -57,21 +57,18 @@ class _MyHomePageState extends State<MyHomePage> {
     (new WebRadio(name: "czwarte", url: "www.onet.pl")),
     (new WebRadio(name: "piate", url: "www.onet.pl")),
   ];
-  late List<String> radioName;
 
   int _value = 0;
   int i = 0;
   String _myState = "";
   String dropdownValue = "One";
+  WebRadio webRadioSelectedItem =
+      new WebRadio(name: "szoste", url: "www.onet.pl");
 
   @override
   void initState() {
     super.initState();
     futureRadioList = getRadios();
-
-    for (var item in radioTest) {
-      radioName.add(item.name);
-    }
   }
 
   void _incrementCounter() {
@@ -91,28 +88,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            DropdownButton<String>(
-              value: dropdownValue,
-              icon: const Icon(Icons.arrow_downward),
-              iconSize: 24,
-              elevation: 16,
-              style: const TextStyle(color: Colors.deepPurple),
-              underline: Container(
-                height: 2,
-                color: Colors.deepPurpleAccent,
-              ),
-              onChanged: (String? newValue) {
-                setState(() {
-                  dropdownValue = newValue!;
-                });
-              },
-              items: radioName.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
             ButtonTheme(
               minWidth: 200.0,
               height: 100.0,
@@ -129,6 +104,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text("Stop"),
               ),
             ),
+            DropdownButton<WebRadio>(
+              items: radioTest.map((WebRadio value) {
+                return DropdownMenuItem<WebRadio>(
+                  value: value,
+                  child: new Text(value.name),
+                );
+              }).toList(),
+              onChanged: (_) {},
+            ),
             FutureBuilder<List<WebRadio>>(
               future: futureRadioList,
               builder: (context, snapshot) {
@@ -137,27 +121,32 @@ class _MyHomePageState extends State<MyHomePage> {
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 }
-
-                // By default, show a loading spinner.
                 return CircularProgressIndicator();
               },
             ),
             Text('Moj tekst'),
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            FutureBuilder<List<WebRadio>>(
+              future: futureRadioList,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return DropdownButton<WebRadio>(
+                    items: snapshot.data!.map((WebRadio value) {
+                      return DropdownMenuItem<WebRadio>(
+                        value: value,
+                        child: new Text(value.name),
+                      );
+                    }).toList(),
+                    onChanged: (_) {},
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return CircularProgressIndicator();
+              },
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
