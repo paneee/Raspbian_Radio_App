@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 class WebRadio {
-  String name;
-  String url;
+  String? name;
+  String? url;
 
   WebRadio({
     required this.name,

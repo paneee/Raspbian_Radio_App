@@ -60,11 +60,12 @@ class _MyHomePageState extends State<MyHomePage> {
   int i = 0;
   String dropdownValue = "One";
   WebRadio? webRadioSelectedItem;
+  WebRadio? webRadioSelectedItem2;
 
   @override
   void initState() {
     super.initState();
-    webRadioSelectedItem = radioTest.first;
+    webRadioSelectedItem2 = radioTest.first;
     futureRadioList = getRadios();
   }
 
@@ -95,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             DropdownButton<WebRadio>(
-              value: webRadioSelectedItem,
+              value: webRadioSelectedItem2,
               hint: Text("Select Category"),
               items: radioTest.map((WebRadio webRadio) {
                 return DropdownMenuItem<WebRadio>(
@@ -105,42 +106,49 @@ class _MyHomePageState extends State<MyHomePage> {
               }).toList(),
               onChanged: (webRadio) {
                 setState(() {
-                  webRadioSelectedItem = webRadio;
+                  webRadioSelectedItem2 = webRadio;
                   //print(webRadioSelectedItem!.name);
                 });
               },
             ),
-            // FutureBuilder<List<WebRadio>>(
-            //   future: futureRadioList,
-            //   builder: (context, snapshot) {
-            //     if (snapshot.hasData) {
-            //       return Text(snapshot.data!.first.url);
-            //     } else if (snapshot.hasError) {
-            //       return Text("${snapshot.error}");
-            //     }
-            //     return CircularProgressIndicator();
-            //   },
-            // ),
-            // Text('Moj tekst'),
-            // FutureBuilder<List<WebRadio>>(
-            //   future: futureRadioList,
-            //   builder: (context, snapshot) {
-            //     if (snapshot.hasData) {
-            //       return DropdownButton<WebRadio>(
-            //         items: snapshot.data!.map((WebRadio value) {
-            //           return DropdownMenuItem<WebRadio>(
-            //             value: value,
-            //             child: new Text(value.name),
-            //           );
-            //         }).toList(),
-            //         onChanged: (_) {},
-            //       );
-            //     } else if (snapshot.hasError) {
-            //       return Text("${snapshot.error}");
-            //     }
-            //     return CircularProgressIndicator();
-            //   },
-            // )
+            FutureBuilder<List<WebRadio>>(
+              future: futureRadioList,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(snapshot.data!.first.url!);
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return CircularProgressIndicator();
+              },
+            ),
+            Text('Moj tekst'),
+            FutureBuilder<List<WebRadio>>(
+              future: futureRadioList,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return DropdownButton<WebRadio>(
+                    value: webRadioSelectedItem,
+                    hint: Text("Wybierz stację"),
+                    items: snapshot.data!.map((WebRadio value) {
+                      return DropdownMenuItem<WebRadio>(
+                        value: value,
+                        child: new Text(value.name!),
+                      );
+                    }).toList(),
+                    onChanged: (webRadio) {
+                      setState(() {
+                        webRadioSelectedItem = webRadio;
+                        print(webRadioSelectedItem!.name);
+                      });
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return CircularProgressIndicator();
+              },
+            )
           ],
         ),
       ),
