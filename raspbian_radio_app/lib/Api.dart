@@ -6,7 +6,7 @@ Future<List<WebRadio>> getRadios() async {
       await http.get(Uri.parse('http://192.168.1.50:8080/api/getAllStation2'));
 
   if (response.statusCode == 200) {
-    print(response.body);
+    //print(response.body);
     return webRadiosFromJson(response.body);
   } else {
     // If the server did not return a 200 OK response,

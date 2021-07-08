@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:raspbian_radio_app/Syle.dart';
+import 'RadioStationDropDownList.dart';
+import 'RadioControlButton.dart';
+import 'WebRadios.dart';
+import 'Api.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,11 +14,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Raspbian Web Radio',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Raspbian Web Radio'),
     );
   }
 }
@@ -28,6 +33,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late Future<List<WebRadio>> futRadioList;
+  WebRadio? radioSelectedItem;
+
+  @override
+  void initState() {
+    super.initState();
+    futRadioList = getRadios();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,13 +52,48 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Text("column 1"),
+          StyledContainer(
+              child: RadioStationDropDownListWidget(
+                  futureRadioList: futRadioList,
+                  webRadioSelectedItem: radioSelectedItem),
+              color: Colors.red,
+              width: 0.85,
+              height: 0.1),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [Text("row 1"), Text("row 2")],
+            children: [
+              TextButton(
+                style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: BorderSide(color: Colors.red)))),
+                onPressed: () {},
+                child: StyledText("Play"),
+              ),
+              StyledContainer(
+                width: 0.4,
+                height: 0.1,
+                child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    onPressed: () {},
+                    padding: EdgeInsets.only(
+                        left: 10, top: 10, right: 10, bottom: 10),
+                    color: Colors.red,
+                    textColor: Colors.black,
+                    child: StyledText("Stop")),
+              ),
+            ],
           ),
           Text("column 2"),
-          Text("column 3"),
+          StyledContainer(
+              width: 0.85,
+              height: 0.1,
+              color: Colors.white,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[StyledText("Tydzień 23")])),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [Text("row 11"), Text("row 12")],
@@ -58,3 +107,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+
+
+//Button Play
+
+//Button Volume
