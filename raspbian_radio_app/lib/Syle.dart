@@ -25,10 +25,10 @@ class StyledContainer extends StatelessWidget {
             bottomRight: Radius.circular(10)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 3), // changes position of shadow
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 0,
+            blurRadius: 22,
+            offset: Offset(0, 0), // changes position of shadow
           ),
         ],
       ),
@@ -41,6 +41,7 @@ class StyledText extends StatelessWidget {
   StyledText(this.text);
   Widget build(BuildContext context) {
     return Text(this.text,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18));
+        style: TextStyle(
+            fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black));
   }
 }

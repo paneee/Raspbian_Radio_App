@@ -14,3 +14,13 @@ Future<List<WebRadio>> getRadios() async {
     throw Exception('Failed to load radios');
   }
 }
+
+// get volume
+
+// set volume
+
+// get station
+
+// play station
+
+//stop station  

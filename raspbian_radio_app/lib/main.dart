@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:raspbian_radio_app/Syle.dart';
-import 'RadioStationDropDownList.dart';
-import 'RadioControlButton.dart';
 import 'WebRadios.dart';
 import 'Api.dart';
 
@@ -33,83 +31,105 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late Future<List<WebRadio>> futRadioList;
-  WebRadio? radioSelectedItem;
+  Future<List<WebRadio>>? futureRadioList;
+  WebRadio? webRadioSelectedItem;
+
+  double _currentVolume = 0;
 
   @override
   void initState() {
     super.initState();
-    futRadioList = getRadios();
+    futureRadioList = getRadios();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(260.0),
+          child: AppBar(
+            title: Text(widget.title),
+          )),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           StyledContainer(
-              child: RadioStationDropDownListWidget(
-                  futureRadioList: futRadioList,
-                  webRadioSelectedItem: radioSelectedItem),
+              child: FutureBuilder<List<WebRadio>>(
+                future: futureRadioList,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return DropdownButton<WebRadio>(
+                      value: webRadioSelectedItem,
+                      hint: StyledText("Wybierz stację"),
+                      items: snapshot.data!.map((WebRadio value) {
+                        return DropdownMenuItem<WebRadio>(
+                          value: value,
+                          child: new StyledText(value.name!),
+                        );
+                      }).toList(),
+                      onChanged: (webRadio) {
+                        setState(() {
+                          webRadioSelectedItem = webRadio;
+                        });
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+                  return CircularProgressIndicator();
+                },
+              ),
               color: Colors.red,
               width: 0.85,
               height: 0.1),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              TextButton(
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            side: BorderSide(color: Colors.red)))),
-                onPressed: () {},
-                child: StyledText("Play"),
-              ),
               StyledContainer(
-                width: 0.4,
-                height: 0.1,
-                child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    onPressed: () {},
-                    padding: EdgeInsets.only(
-                        left: 10, top: 10, right: 10, bottom: 10),
-                    color: Colors.red,
-                    textColor: Colors.black,
-                    child: StyledText("Stop")),
-              ),
+                  width: 0.4,
+                  height: 0.1,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      side: BorderSide(color: Colors.red)))),
+                      onPressed: () {},
+                      child: StyledText("Play"))),
+              StyledContainer(
+                  width: 0.4,
+                  height: 0.1,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      side: BorderSide(color: Colors.red)))),
+                      onPressed: () {},
+                      child: StyledText("Stop"))),
             ],
           ),
-          Text("column 2"),
+          StyledText("Volume"),
           StyledContainer(
-              width: 0.85,
+              width: 1,
               height: 0.1,
-              color: Colors.white,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[StyledText("Tydzień 23")])),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [Text("row 11"), Text("row 12")],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [Text("row 21"), Text("row 22")],
-          ),
+              child: Slider(
+                value: _currentVolume,
+                min: 0,
+                max: 100,
+                divisions: 100,
+                label: _currentVolume.round().toString(),
+                onChanged: (double value) {
+                  setState(() {
+                    _currentVolume = value;
+                  });
+                },
+              )),
         ],
       )),
     );
   }
 }
-
-
-
-//Button Play
-
-//Button Volume
