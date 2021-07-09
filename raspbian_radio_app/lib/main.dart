@@ -100,8 +100,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       borderRadius: BorderRadius.circular(10.0),
                                       side: BorderSide(color: Colors.red)))),
                       onPressed: () {
-                        //setVolume(currentVolume);
-                        createAlbum2("Tylul");
+                        setVolume(currentVolume);
+                        //createAlbum(2.2);
                       },
                       child: StyledText("Play"))),
               StyledContainer(

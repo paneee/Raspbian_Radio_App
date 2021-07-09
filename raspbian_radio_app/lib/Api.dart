@@ -36,56 +36,58 @@ Future<http.Response> setVolume(double volume) {
       }));
 }
 
-Future<void> createAlbum(double volume) async {
-  String _volume = volume.round().toString();
-  final response = await http.post(
-    Uri.parse('http://192.168.1.50:8080/api/setVolume/'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS',
-      'Access-Control-Allow-Headers':
-          'Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With'
-    },
-    body: jsonEncode(<String, String>{
-      'volume': _volume,
-    }),
-  );
+// Future<void> createAlbum(double volume) async {
+//   String _volume = volume.round().toString();
+//   final response = await http.post(
+//     Uri.parse('http://192.168.1.50:8080/api/setVolume/'),
+//     //Uri.parse('http://192.168.1.2:3000/content/'),
+//     headers: <String, String>{
+//       "Content-Type": "application/json; charset=utf-8",
+//       "Access-Control-Allow-Origin": "*",
+//       "Access-Control-Allow-Headers":
+//           "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+//       "Access-Control-Allow-Methods": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+//     },
 
-  if (response.statusCode == 201) {
-    // If the server did return a 201 CREATED response,
-    // then parse the JSON.
-    //return Album.fromJson(jsonDecode(response.body));
-    var kk = response.body;
-  } else {
-    // If the server did not return a 201 CREATED response,
-    // then throw an exception.
-    throw Exception('Failed to create album.');
-  }
-}
+//     body: jsonEncode(<String, String>{
+//       'volume': _volume,
+//     }),
+//   );
 
-Future<void> createAlbum2(String title) async {
-  final response = await http.post(
-    Uri.parse('https://jsonplaceholder.typicode.com/albums'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'title': title,
-    }),
-  );
+//   if (response.statusCode == 201) {
+//     // If the server did return a 201 CREATED response,
+//     // then parse the JSON.
+//     //return Album.fromJson(jsonDecode(response.body));
+//     var kk = response.body;
+//   } else {
+//     // If the server did not return a 201 CREATED response,
+//     // then throw an exception.
+//     throw Exception('Failed to create album.');
+//   }
+// }
 
-  if (response.statusCode == 201) {
-    // If the server did return a 201 CREATED response,
-    // then parse the JSON.
-    var kk = jsonDecode(response.body);
-    int jjj = 99;
-  } else {
-    // If the server did not return a 201 CREATED response,
-    // then throw an exception.
-    throw Exception('Failed to create album.');
-  }
-}
+// Future<void> createAlbum2(String title) async {
+//   final response = await http.post(
+//     Uri.parse('https://jsonplaceholder.typicode.com/albums'),
+//     headers: <String, String>{
+//       'Content-Type': 'application/json; charset=UTF-8',
+//     },
+//     body: jsonEncode(<String, String>{
+//       'title': title,
+//     }),
+//   );
+
+//   if (response.statusCode == 201) {
+//     // If the server did return a 201 CREATED response,
+//     // then parse the JSON.
+//     var kk = jsonDecode(response.body);
+//     int jjj = 99;
+//   } else {
+//     // If the server did not return a 201 CREATED response,
+//     // then throw an exception.
+//     throw Exception('Failed to create album.');
+//   }
+// }
 
 
 
