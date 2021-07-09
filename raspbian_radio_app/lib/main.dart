@@ -34,12 +34,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<List<WebRadio>>? futureRadioList;
   WebRadio? webRadioSelectedItem;
 
-  double _currentVolume = 0;
+  Future<double>? futureVolume;
+
+  double currentVolume = 0;
 
   @override
   void initState() {
     super.initState();
     futureRadioList = getRadios();
+    futureVolume = getVolume();
   }
 
   @override
@@ -96,7 +99,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                       side: BorderSide(color: Colors.red)))),
-                      onPressed: () {},
+                      onPressed: () {
+                        //setVolume(currentVolume);
+                        createAlbum2("Tylul");
+                      },
                       child: StyledText("Play"))),
               StyledContainer(
                   width: 0.4,
@@ -116,18 +122,31 @@ class _MyHomePageState extends State<MyHomePage> {
           StyledContainer(
               width: 1,
               height: 0.1,
-              child: Slider(
-                value: _currentVolume,
-                min: 0,
-                max: 100,
-                divisions: 100,
-                label: _currentVolume.round().toString(),
-                onChanged: (double value) {
-                  setState(() {
-                    _currentVolume = value;
-                  });
-                },
-              )),
+              child: FutureBuilder<double>(
+                  future: futureVolume,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Slider(
+                        value: currentVolume,
+                        min: 0,
+                        max: 100,
+                        divisions: 100,
+                        label: currentVolume.round().toString(),
+                        onChangeEnd: (_) {
+                          //setVolume(currentVolume);
+                        },
+                        onChanged: (volume) {
+                          setState(() {
+                            currentVolume = volume;
+                            print(volume);
+                          });
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    return CircularProgressIndicator();
+                  }))
         ],
       )),
     );
