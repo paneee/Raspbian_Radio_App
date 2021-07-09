@@ -100,8 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       borderRadius: BorderRadius.circular(10.0),
                                       side: BorderSide(color: Colors.red)))),
                       onPressed: () {
-                        setVolume(currentVolume);
-                        //createAlbum(2.2);
+                        playRadio(webRadioSelectedItem!);
                       },
                       child: StyledText("Play"))),
               StyledContainer(
@@ -114,7 +113,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                       side: BorderSide(color: Colors.red)))),
-                      onPressed: () {},
+                      onPressed: () {
+                        stopRadio();
+                      },
                       child: StyledText("Stop"))),
             ],
           ),
@@ -133,7 +134,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         divisions: 100,
                         label: currentVolume.round().toString(),
                         onChangeEnd: (_) {
-                          //setVolume(currentVolume);
+                          setState(() {
+                            setVolume(currentVolume);
+                          });
                         },
                         onChanged: (volume) {
                           setState(() {
