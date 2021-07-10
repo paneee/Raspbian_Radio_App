@@ -8,7 +8,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -141,7 +140,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         onChanged: (volume) {
                           setState(() {
                             currentVolume = volume;
-                            print(volume);
                           });
                         },
                       );

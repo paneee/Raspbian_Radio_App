@@ -1,11 +1,17 @@
 import 'dart:convert';
-
 import 'package:raspbian_radio_app/WebRadios.dart';
 import 'package:http/http.dart' as http;
 
+String ip = 'http://' + "192.168.1.50";
+String port = "5000";
+Uri getAllStationPath = Uri.parse(ip + ':' + port + '/api/getAllStation/');
+Uri getVolumePath = Uri.parse(ip + ':' + port + '/api/getVolume/');
+Uri setVolumePath = Uri.parse(ip + ':' + port + '/api/setVolume/');
+Uri playRadioPath = Uri.parse(ip + ':' + port + '/api/playRadio/');
+Uri stopRadioPath = Uri.parse(ip + ':' + port + '/api/stopRadio/');
+
 Future<List<WebRadio>> getRadios() async {
-  final response =
-      await http.get(Uri.parse('http://192.168.1.50:8080/api/getAllStation2'));
+  final response = await http.get(getAllStationPath);
 
   if (response.statusCode == 200) {
     return webRadiosFromJson(response.body);
@@ -15,8 +21,7 @@ Future<List<WebRadio>> getRadios() async {
 }
 
 Future<double> getVolume() async {
-  final response =
-      await http.get(Uri.parse('http://192.168.1.50:8080/api/getVolume'));
+  final response = await http.get(getVolumePath);
 
   if (response.statusCode == 200) {
     return double.parse(response.body);
@@ -27,7 +32,7 @@ Future<double> getVolume() async {
 
 Future<http.Response> setVolume(double volume) {
   String _volume = volume.round().toString();
-  return http.post(Uri.parse('http://192.168.1.50:8080/api/setVolume/'),
+  return http.post(setVolumePath,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -37,7 +42,7 @@ Future<http.Response> setVolume(double volume) {
 }
 
 Future<http.Response> playRadio(WebRadio radio) {
-  return http.post(Uri.parse('http://192.168.1.50:8080/api/playRadio/'),
+  return http.post(playRadioPath,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -47,16 +52,9 @@ Future<http.Response> playRadio(WebRadio radio) {
 
 Future<http.Response> stopRadio() {
   return http.post(
-    Uri.parse('http://192.168.1.50:8080/api/stopRadio/'),
+    stopRadioPath,
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
   );
 }
-
-
-// get station
-
-// play station
-
-// stop station  
