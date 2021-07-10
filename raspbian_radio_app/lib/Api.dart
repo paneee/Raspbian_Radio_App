@@ -9,12 +9,24 @@ Uri getVolumePath = Uri.parse(ip + ':' + port + '/api/getVolume/');
 Uri setVolumePath = Uri.parse(ip + ':' + port + '/api/setVolume/');
 Uri playRadioPath = Uri.parse(ip + ':' + port + '/api/playRadio/');
 Uri stopRadioPath = Uri.parse(ip + ':' + port + '/api/stopRadio/');
+Uri getPlayingStationPath =
+    Uri.parse(ip + ':' + port + '/api/getPlayingStation/');
 
 Future<List<WebRadio>> getRadios() async {
   final response = await http.get(getAllStationPath);
 
   if (response.statusCode == 200) {
     return webRadiosFromJson(response.body);
+  } else {
+    throw Exception('Failed to get radios');
+  }
+}
+
+Future<WebRadio> getPlayingStation() async {
+  final response = await http.get(getPlayingStationPath);
+
+  if (response.statusCode == 200) {
+    return webRadioFromJson(response.body);
   } else {
     throw Exception('Failed to get radios');
   }

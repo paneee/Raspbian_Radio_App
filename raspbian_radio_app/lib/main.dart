@@ -32,16 +32,24 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Future<List<WebRadio>>? futureRadioList;
   WebRadio? webRadioSelectedItem;
-
   Future<double>? futureVolume;
-
+  Future<WebRadio>? futureActualPlaying;
   double currentVolume = 0;
 
   @override
   void initState() {
     super.initState();
     futureRadioList = getRadios();
+
+    futureActualPlaying = getPlayingStation();
+  }
+
+  void refreshVolume() {
     futureVolume = getVolume();
+  }
+
+  void refreshPlaingStation() {
+    futureActualPlaying = getPlayingStation();
   }
 
   @override
@@ -99,7 +107,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       borderRadius: BorderRadius.circular(10.0),
                                       side: BorderSide(color: Colors.red)))),
                       onPressed: () {
-                        playRadio(webRadioSelectedItem!);
+                        var pr = playRadio(webRadioSelectedItem!);
+                        pr.whenComplete(() => getPlayingStation());
                       },
                       child: StyledText("Play"))),
               StyledContainer(
@@ -113,7 +122,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       borderRadius: BorderRadius.circular(10.0),
                                       side: BorderSide(color: Colors.red)))),
                       onPressed: () {
-                        stopRadio();
+                        var sr = stopRadio();
+                        sr.whenComplete(() => getPlayingStation());
                       },
                       child: StyledText("Stop"))),
             ],
@@ -143,6 +153,19 @@ class _MyHomePageState extends State<MyHomePage> {
                           });
                         },
                       );
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    return CircularProgressIndicator();
+                  })),
+          StyledContainer(
+              width: 0.8,
+              height: 0.1,
+              child: FutureBuilder<WebRadio>(
+                  future: futureActualPlaying,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(snapshot.data!.name!);
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }

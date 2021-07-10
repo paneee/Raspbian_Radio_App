@@ -19,3 +19,5 @@ class WebRadio {
 
 List<WebRadio> webRadiosFromJson(String str) =>
     List<WebRadio>.from(json.decode(str).map((x) => WebRadio.fromJson(x)));
+
+WebRadio webRadioFromJson(String str) => WebRadio.fromJson(json.decode(str));
