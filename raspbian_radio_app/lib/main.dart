@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raspbian_radio_app/Status.dart';
 import 'package:raspbian_radio_app/Syle.dart';
 import 'WebRadios.dart';
 import 'Api.dart';
@@ -35,7 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<double>? futureVolume;
   Future<WebRadio>? futureActualPlaying;
   double currentVolume = 0;
-  bool firstloadslider = true;
+  bool firstLoadSlider = true;
+  Future<Status>? futureStatus;
 
   @override
   void initState() {
@@ -136,9 +138,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if ((snapshot.connectionState == ConnectionState.done) &&
-                          (firstloadslider == true)) {
+                          (firstLoadSlider == true)) {
                         currentVolume = snapshot.data!;
-                        firstloadslider = false;
+                        firstLoadSlider = false;
                       }
                       return Slider(
                         value: currentVolume,

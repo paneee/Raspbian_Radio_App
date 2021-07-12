@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'package:raspbian_radio_app/Status.dart';
+
 import 'WebRadios.dart';
 import 'package:http/http.dart' as http;
 
 String ip = 'http://' + "192.168.1.50";
 String port = "5000";
 Uri getAllStationPath = Uri.parse(ip + ':' + port + '/api/getAllStation/');
+Uri getStatusPath = Uri.parse(ip + ':' + port + '/api/getStatus/');
 Uri getVolumePath = Uri.parse(ip + ':' + port + '/api/getVolume/');
 Uri setVolumePath = Uri.parse(ip + ':' + port + '/api/setVolume/');
 Uri playRadioPath = Uri.parse(ip + ':' + port + '/api/playRadio/');
@@ -69,4 +72,14 @@ Future<http.Response> stopRadio() {
       'Content-Type': 'application/json; charset=UTF-8',
     },
   );
+}
+
+Future<Status> getStatus() async {
+  final response = await http.get(getStatusPath);
+
+  if (response.statusCode == 200) {
+    return statusFromJson(response.body);
+  } else {
+    throw Exception('Failed to get radios');
+  }
 }
