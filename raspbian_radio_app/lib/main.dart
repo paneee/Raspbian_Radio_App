@@ -35,12 +35,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<double>? futureVolume;
   Future<WebRadio>? futureActualPlaying;
   double currentVolume = 0;
+  bool firstloadslider = true;
 
   @override
   void initState() {
     super.initState();
     futureRadioList = getRadios();
-
+    futureVolume = getVolume();
     futureActualPlaying = getPlayingStation();
   }
 
@@ -107,8 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       borderRadius: BorderRadius.circular(10.0),
                                       side: BorderSide(color: Colors.red)))),
                       onPressed: () {
-                        var pr = playRadio(webRadioSelectedItem!);
-                        pr.whenComplete(() => getPlayingStation());
+                        playRadio(webRadioSelectedItem!);
                       },
                       child: StyledText("Play"))),
               StyledContainer(
@@ -122,8 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       borderRadius: BorderRadius.circular(10.0),
                                       side: BorderSide(color: Colors.red)))),
                       onPressed: () {
-                        var sr = stopRadio();
-                        sr.whenComplete(() => getPlayingStation());
+                        stopRadio();
                       },
                       child: StyledText("Stop"))),
             ],
@@ -136,6 +135,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   future: futureVolume,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
+                      if ((snapshot.connectionState == ConnectionState.done) &&
+                          (firstloadslider == true)) {
+                        currentVolume = snapshot.data!;
+                        firstloadslider = false;
+                      }
                       return Slider(
                         value: currentVolume,
                         min: 0,
