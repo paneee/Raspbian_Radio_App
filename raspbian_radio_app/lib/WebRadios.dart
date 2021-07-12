@@ -3,17 +3,17 @@ import 'dart:convert';
 class WebRadio {
   String? name;
   String? url;
+  bool? isPlaying;
 
   WebRadio({
     required this.name,
     required this.url,
+    required this.isPlaying,
   });
 
   factory WebRadio.fromJson(Map<String, dynamic> json) {
     return WebRadio(
-      name: json['name'],
-      url: json['url'],
-    );
+        name: json['name'], url: json['url'], isPlaying: json['isPlaying']);
   }
 }
 

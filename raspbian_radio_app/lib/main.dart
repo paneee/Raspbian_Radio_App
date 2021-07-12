@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:raspbian_radio_app/Status.dart';
 import 'package:raspbian_radio_app/Syle.dart';
 import 'WebRadios.dart';
 import 'Api.dart';
@@ -34,25 +33,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<List<WebRadio>>? futureRadioList;
   WebRadio? webRadioSelectedItem;
   Future<double>? futureVolume;
-  Future<WebRadio>? futureActualPlaying;
   double currentVolume = 0;
   bool firstLoadSlider = true;
-  Future<Status>? futureStatus;
+  bool firstLoadDrop = true;
 
   @override
   void initState() {
     super.initState();
     futureRadioList = getRadios();
     futureVolume = getVolume();
-    futureActualPlaying = getPlayingStation();
-  }
-
-  void refreshVolume() {
-    futureVolume = getVolume();
-  }
-
-  void refreshPlaingStation() {
-    futureActualPlaying = getPlayingStation();
   }
 
   @override
@@ -72,6 +61,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 future: futureRadioList,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    if ((snapshot.connectionState == ConnectionState.done) &&
+                        (firstLoadDrop == true)) {
+                      for (var item in snapshot.data!) {
+                        if (item.isPlaying == true) {
+                          webRadioSelectedItem = item;
+                        }
+                      }
+                      firstLoadDrop = false;
+                    }
                     return DropdownButton<WebRadio>(
                       value: webRadioSelectedItem,
                       hint: StyledText("Wybierz stację"),
@@ -164,19 +162,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                     return CircularProgressIndicator();
                   })),
-          StyledContainer(
-              width: 0.8,
-              height: 0.1,
-              child: FutureBuilder<WebRadio>(
-                  future: futureActualPlaying,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Text(snapshot.data!.name!);
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-                    return CircularProgressIndicator();
-                  }))
         ],
       )),
     );

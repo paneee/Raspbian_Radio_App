@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:raspbian_radio_app/Status.dart';
 
 import 'WebRadios.dart';
 import 'package:http/http.dart' as http;
@@ -72,14 +71,4 @@ Future<http.Response> stopRadio() {
       'Content-Type': 'application/json; charset=UTF-8',
     },
   );
-}
-
-Future<Status> getStatus() async {
-  final response = await http.get(getStatusPath);
-
-  if (response.statusCode == 200) {
-    return statusFromJson(response.body);
-  } else {
-    throw Exception('Failed to get radios');
-  }
 }
