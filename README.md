@@ -1,10 +1,12 @@
 # raspbian_radio_app
 
-A new Flutter project.
+raspbian_radio_app is a a Flutter for android or ios phone application 
 
-## Getting Started
+![Screenshot_20210713_214428](https://user-images.githubusercontent.com/27755739/125516162-4cc18ad8-666c-41e7-9325-c3a46b779388.jpg)
 
-This project is a starting point for a Flutter application.
+Aapplication uses the Web API from the project:
+[RaspbianWebRadio](https://github.com/paneee/RaspbianWebRadio)
+
 
 A few resources to get you started if this is your first Flutter project:
 
