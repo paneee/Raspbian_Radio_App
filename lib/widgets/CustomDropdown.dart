@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '/utils/color.dart';
+import 'package:raspbian_radio_app/utils/Syle.dart';
 
-class DropdownIssue extends StatefulWidget {
+class CustomDropdown extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _DropdownIssueState();
+    return _CustomDropdownState();
   }
 }
 
-class _DropdownIssueState extends State<DropdownIssue> {
+class _CustomDropdownState extends State<CustomDropdown> {
   int currentValue = 0;
 
   @override

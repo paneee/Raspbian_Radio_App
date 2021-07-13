@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '/widgets/Dropdown.dart';
-import '/widgets/CustomButtonWidget.dart';
-import '/widgets/herder_container.dart';
-import '/widgets/CustomSliderWidget.dart';
+import 'package:raspbian_radio_app/widgets/CustomDropdown.dart';
+import 'package:raspbian_radio_app/widgets/CustomButtonWidget.dart';
+import 'package:raspbian_radio_app/widgets/HerderContainer.dart';
+import 'package:raspbian_radio_app/widgets/CustomSliderWidget.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -25,8 +25,6 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    //_textInput(hint: "Email", icon: Icons.email),
-                    //_textInput(hint: "Password", icon: Icons.vpn_key),
                     Container(
                       margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.centerRight,
@@ -34,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
                         "Stacja",
                       ),
                     ),
-                    Expanded(child: DropdownIssue()),
+                    Expanded(child: CustomDropdown()),
                     Container(
                       margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.centerRight,
@@ -65,7 +63,6 @@ class _LoginPageState extends State<LoginPage> {
                         "Głośność",
                       ),
                     ),
-
                     Expanded(
                       child: Center(
                         child: CustomSliderWidget(
@@ -79,7 +76,6 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-
                     RichText(
                       text: TextSpan(children: [
                         TextSpan(

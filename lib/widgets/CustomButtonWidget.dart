@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/utils/color.dart';
+import 'package:raspbian_radio_app/utils/Syle.dart';
 
 // ignore: must_be_immutable
 class CustomButtonWidget extends StatelessWidget {

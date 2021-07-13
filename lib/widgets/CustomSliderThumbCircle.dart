@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/utils/color.dart';
+import 'package:raspbian_radio_app/utils/Syle.dart';
 
 class CustomSliderThumbCircle extends SliderComponentShape {
   final double thumbRadius;
