@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:raspbian_radio_app/api/api.dart';
+import 'package:raspbian_radio_app/utils/Syle.dart';
+import 'package:raspbian_radio_app/utils/WebRadios.dart';
 import 'package:raspbian_radio_app/widgets/CustomDropdown.dart';
 import 'package:raspbian_radio_app/widgets/CustomButtonWidget.dart';
 import 'package:raspbian_radio_app/widgets/HerderContainer.dart';
@@ -9,7 +12,27 @@ class RadioPage extends StatefulWidget {
   _RadioPageState createState() => _RadioPageState();
 }
 
+double? currentVolume;
+WebRadio? webRadioSelectedItem;
+
+Future<double>? futureVolume;
+Future<WebRadio>? futureActualPlaying;
+Future<List<WebRadio>>? futureRadioList;
+
+//bool firstloadslider = true;
+
 class _RadioPageState extends State<RadioPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    currentVolume = 0;
+
+    futureRadioList = getRadios();
+    futureVolume = getVolume();
+    futureActualPlaying = getPlayingStation();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +55,45 @@ class _RadioPageState extends State<RadioPage> {
                         "Stacja",
                       ),
                     ),
-                    Expanded(child: CustomDropdown()),
+                    Expanded(
+                      child: FutureBuilder<List<WebRadio>>(
+                        future: futureRadioList,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return CustomDropdown(
+                              value: webRadioSelectedItem,
+                              hint: Text(
+                                "Wybierz stację",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              items: snapshot.data!.map((WebRadio value) {
+                                return DropdownMenuItem<WebRadio>(
+                                  value: value,
+                                  child: Text(
+                                    value.name!,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (webRadio) {
+                                setState(() {
+                                  webRadioSelectedItem = webRadio;
+                                });
+                              },
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text("${snapshot.error}");
+                          }
+                          return CircularProgressIndicator();
+                        },
+                      ),
+                    ),
                     Container(
                       margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.centerRight,
@@ -66,13 +127,21 @@ class _RadioPageState extends State<RadioPage> {
                     Expanded(
                       child: Center(
                         child: CustomSliderWidget(
-                          onChange: (_) {},
-                          onChangeEnd: (_) {},
                           min: 0,
                           max: 100,
+                          onChanged: (volume) {
+                            setState(() {
+                              currentVolume = volume;
+                            });
+                          },
+                          onChangeEnd: (_) {
+                            setState(() {
+                              //setVolume(currentVolume);
+                            });
+                          },
                           sliderHeight: 60,
                           fullWidth: true,
-                          value: 0,
+                          value: currentVolume,
                         ),
                       ),
                     ),

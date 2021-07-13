@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:raspbian_radio_app/utils/Syle.dart';
+import 'package:raspbian_radio_app/utils/WebRadios.dart';
 
+// ignore: must_be_immutable
 class CustomDropdown extends StatefulWidget {
+  var hint;
+  var items;
+  var onChanged;
+  var value;
+
+  CustomDropdown({this.hint, this.items, this.onChanged, this.value});
+
   @override
   State<StatefulWidget> createState() {
     return _CustomDropdownState();
@@ -30,9 +39,9 @@ class _CustomDropdownState extends State<CustomDropdown> {
               ),
             ),
             alignment: Alignment.center,
-            child: DropdownButton<String>(
-              value: 'Two',
-              //icon: const Icon(Icons.arrow_downward),
+            child: DropdownButton<WebRadio>(
+              value: this.widget.value,
+              hint: this.widget.hint,
               iconSize: 24,
               elevation: 16,
               style: const TextStyle(color: Colors.white),
@@ -40,21 +49,8 @@ class _CustomDropdownState extends State<CustomDropdown> {
                 height: 0,
                 color: Colors.deepPurpleAccent,
               ),
-              onChanged: (String? newValue) {
-                setState(() {});
-              },
-              items: <String>['One', 'Two', 'Free', 'Four']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      "One",
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ));
-              }).toList(),
+              onChanged: this.widget.onChanged,
+              items: this.widget.items,
             ),
           )
         ],

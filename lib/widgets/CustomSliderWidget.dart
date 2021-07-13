@@ -8,16 +8,16 @@ class CustomSliderWidget extends StatefulWidget {
   final int min;
   final int max;
   final fullWidth;
-  var onChange;
+  var onChanged;
   var onChangeEnd;
   var value;
 
   CustomSliderWidget(
-      {this.sliderHeight = 48,
-      this.max = 10,
-      this.min = 0,
-      this.fullWidth = false,
-      this.onChange,
+      {required this.sliderHeight,
+      required this.max,
+      required this.min,
+      this.fullWidth,
+      this.onChanged,
       this.onChangeEnd,
       this.value});
 
@@ -84,9 +84,12 @@ class _CustomSliderWidgetState extends State<CustomSliderWidget> {
                     inactiveTickMarkColor: Colors.red.withOpacity(.7),
                   ),
                   child: Slider(
+                      min: 0,
+                      max: 100,
+                      divisions: 100,
                       value: this.widget.value,
                       onChangeEnd: this.widget.onChangeEnd,
-                      onChanged: this.widget.onChange),
+                      onChanged: this.widget.onChanged),
                 ),
               ),
             ),
