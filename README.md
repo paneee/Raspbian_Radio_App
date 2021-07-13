@@ -1,8 +1,9 @@
+
 # raspbian_radio_app
 
 raspbian_radio_app is a a Flutter for android or ios phone application 
 
-![Screenshot_20210713_214428](https://user-images.githubusercontent.com/27755739/125516162-4cc18ad8-666c-41e7-9325-c3a46b779388.jpg)
+![Webp net-resizeimage](https://user-images.githubusercontent.com/27755739/125517108-ecb85367-8ab9-48fb-b9fe-9ba5a60b9882.jpg)
 
 Aapplication uses the Web API from the project:
 [RaspbianWebRadio](https://github.com/paneee/RaspbianWebRadio)
