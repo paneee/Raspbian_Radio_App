@@ -4,12 +4,12 @@ import 'package:raspbian_radio_app/widgets/CustomButtonWidget.dart';
 import 'package:raspbian_radio_app/widgets/HerderContainer.dart';
 import 'package:raspbian_radio_app/widgets/CustomSliderWidget.dart';
 
-class LoginPage extends StatefulWidget {
+class RadioPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RadioPageState createState() => _RadioPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RadioPageState extends State<RadioPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
