@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:raspbian_radio_app/api/api.dart';
-import 'package:raspbian_radio_app/utils/Syle.dart';
 import 'package:raspbian_radio_app/utils/WebRadios.dart';
 import 'package:raspbian_radio_app/widgets/CustomDropdown.dart';
 import 'package:raspbian_radio_app/widgets/CustomButtonWidget.dart';
@@ -14,12 +13,11 @@ class RadioPage extends StatefulWidget {
 
 double? currentVolume;
 WebRadio? webRadioSelectedItem;
+bool? firstLoadSlider;
 
 Future<double>? futureVolume;
 Future<WebRadio>? futureActualPlaying;
 Future<List<WebRadio>>? futureRadioList;
-
-//bool firstloadslider = true;
 
 class _RadioPageState extends State<RadioPage> {
   @override
@@ -30,7 +28,8 @@ class _RadioPageState extends State<RadioPage> {
 
     futureRadioList = getRadios();
     futureVolume = getVolume();
-    futureActualPlaying = getPlayingStation();
+
+    firstLoadSlider = true;
   }
 
   @override
@@ -104,7 +103,11 @@ class _RadioPageState extends State<RadioPage> {
                     Expanded(
                       child: Center(
                         child: CustomButtonWidget(
-                          onClick: () {},
+                          onClick: () {
+                            setState(() {
+                              playRadio(webRadioSelectedItem!);
+                            });
+                          },
                           btnText: "Play",
                         ),
                       ),
@@ -112,7 +115,11 @@ class _RadioPageState extends State<RadioPage> {
                     Expanded(
                       child: Center(
                         child: CustomButtonWidget(
-                          onClick: () {},
+                          onClick: () {
+                            setState(() {
+                              stopRadio();
+                            });
+                          },
                           btnText: "Stop",
                         ),
                       ),
@@ -125,33 +132,38 @@ class _RadioPageState extends State<RadioPage> {
                       ),
                     ),
                     Expanded(
-                      child: Center(
-                        child: CustomSliderWidget(
-                          min: 0,
-                          max: 100,
-                          onChanged: (volume) {
-                            setState(() {
-                              currentVolume = volume;
-                            });
-                          },
-                          onChangeEnd: (_) {
-                            setState(() {
-                              //setVolume(currentVolume);
-                            });
-                          },
-                          sliderHeight: 60,
-                          fullWidth: true,
-                          value: currentVolume,
-                        ),
-                      ),
-                    ),
-                    RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
-                            text: "© 2021",
-                            style: TextStyle(color: Colors.black)),
-                      ]),
-                    )
+                        child: FutureBuilder<double>(
+                            future: futureVolume,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                if ((snapshot.connectionState ==
+                                        ConnectionState.done) &&
+                                    (firstLoadSlider == true)) {
+                                  currentVolume = snapshot.data!;
+                                  firstLoadSlider = false;
+                                }
+                                return CustomSliderWidget(
+                                  min: 0,
+                                  max: 100,
+                                  sliderHeight: 60,
+                                  fullWidth: true,
+                                  value: currentVolume,
+                                  onChanged: (volume) {
+                                    setState(() {
+                                      currentVolume = volume;
+                                    });
+                                  },
+                                  onChangeEnd: (_) {
+                                    setState(() {
+                                      setVolume(currentVolume!);
+                                    });
+                                  },
+                                );
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              return CircularProgressIndicator();
+                            })),
                   ],
                 ),
               ),
