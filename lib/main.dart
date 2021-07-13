@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:raspbian_radio_app/Syle.dart';
-import 'WebRadios.dart';
-import 'Api.dart';
+import 'package:raspbian_radio_app/utils/Syle.dart';
+import 'utils/WebRadios.dart';
+import 'api/api.dart';
 
 void main() {
   runApp(MyApp());

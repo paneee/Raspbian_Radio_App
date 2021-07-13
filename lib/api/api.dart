@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'WebRadios.dart';
+import '/utils/WebRadios.dart';
 import 'package:http/http.dart' as http;
 
 String ip = 'http://' + "192.168.1.50";
