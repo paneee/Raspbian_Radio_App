@@ -14,6 +14,7 @@ class RadioPage extends StatefulWidget {
 double? currentVolume;
 WebRadio? webRadioSelectedItem;
 bool? firstLoadSlider;
+bool? firstLoadDropDown;
 
 Future<double>? futureVolume;
 Future<WebRadio>? futureActualPlaying;
@@ -30,6 +31,7 @@ class _RadioPageState extends State<RadioPage> {
     futureVolume = getVolume();
 
     firstLoadSlider = true;
+    firstLoadDropDown = true;
   }
 
   @override
@@ -59,6 +61,17 @@ class _RadioPageState extends State<RadioPage> {
                         future: futureRadioList,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
+                            if ((snapshot.connectionState ==
+                                    ConnectionState.done) &&
+                                (firstLoadDropDown == true)) {
+                              for (WebRadio item in snapshot.data!) {
+                                if (item.isPlaying == true) {
+                                  webRadioSelectedItem = item;
+                                }
+                              }
+                              firstLoadDropDown = false;
+                            }
+
                             return CustomDropdown(
                               value: webRadioSelectedItem,
                               hint: Text(
