@@ -27,6 +27,23 @@ class _CustomDropdownState extends State<CustomDropdown> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Container(
+            child: Theme(
+                data: Theme.of(context).copyWith(
+                  canvasColor: darkColor,
+                ),
+                child: DropdownButton<WebRadio>(
+                  value: this.widget.value,
+                  hint: this.widget.hint,
+                  iconSize: 24,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.white),
+                  underline: Container(
+                    height: 0,
+                    color: Colors.deepPurpleAccent,
+                  ),
+                  onChanged: this.widget.onChanged,
+                  items: this.widget.items,
+                )),
             width: double.infinity,
             height: 60,
             decoration: BoxDecoration(
@@ -39,19 +56,6 @@ class _CustomDropdownState extends State<CustomDropdown> {
               ),
             ),
             alignment: Alignment.center,
-            child: DropdownButton<WebRadio>(
-              value: this.widget.value,
-              hint: this.widget.hint,
-              iconSize: 24,
-              elevation: 16,
-              style: const TextStyle(color: Colors.white),
-              underline: Container(
-                height: 0,
-                color: Colors.deepPurpleAccent,
-              ),
-              onChanged: this.widget.onChanged,
-              items: this.widget.items,
-            ),
           )
         ],
       ),
