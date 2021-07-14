@@ -145,3 +145,61 @@ class _CustomTextInputState extends State<CustomTextInput> {
 //               return 'Please enter some text';
 //             }
 //           }));
+
+
+
+
+// String contactNumber;
+// String pin;
+// return Form(
+//   key: _formKey,
+//   child: Column(
+//     children: <Widget>[
+//       TextFormField(
+//         onSaved: (String value){contactNumber=value;},
+//         keyboardType: TextInputType.phone,
+//         inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+//         maxLength: 10,
+//         decoration: InputDecoration(
+//             labelText: "Enter Your Mobile Number",
+//             hintText: "Number",
+//             icon: Icon(Icons.phone_iphone)),
+//         validator: (value) {
+//           if (value.isEmpty || value.length < 10) {
+//             return 'Please Enter 10 digit number';
+//           }
+//           return null;
+//         },
+//       ),
+//       TextFormField(
+//         onSaved: (String value){pin=value;},
+//         keyboardType: TextInputType.phone,
+//         inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+//         maxLength: 10,
+//         decoration: InputDecoration(
+//             labelText: "Enter Your PIN",
+//             hintText: "Number",
+//             icon: Icon(Icons.lock)),
+//         validator: (value) {
+//           if (value.isEmpty || value.length < 6) {
+//             return 'Please Enter 6 digit PIN';
+//           }
+//           return null;
+//         },
+//       ),
+//       Padding(
+//         padding: const EdgeInsets.symmetric(vertical: 16.0),
+//         child: RaisedButton(
+//             color: Colors.black,
+//             textColor: Colors.white,
+//             onPressed: () {
+//               if (_formKey.currentState.validate()) {
+//                 ***_formKey.currentState.save();***
+//                 bloc.loginUser(contactNumber, pin);
+//               }
+//             },
+//             child: Text('Login' /*style: TextStyle(fontSize: 30),*/)),
+//       )
+//     ],
+//   ),
+// );
