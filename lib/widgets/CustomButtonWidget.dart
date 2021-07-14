@@ -15,6 +15,8 @@ class CustomButtonWidget extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 60,
+        margin: EdgeInsets.all(5),
+        padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           gradient: LinearGradient(
               colors: [darkColor, lightColor],

@@ -19,3 +19,10 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+// ToDo: 
+// Settings with ip and port (new page)
+// Integration with SQL for save settings
+// Change theme (color)
+// Reakcja przycisku na nacisniecie

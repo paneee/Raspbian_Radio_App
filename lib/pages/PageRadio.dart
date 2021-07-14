@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raspbian_radio_app/api/api.dart';
+import 'package:raspbian_radio_app/utils/Syle.dart';
 import 'package:raspbian_radio_app/utils/WebRadios.dart';
 import 'package:raspbian_radio_app/widgets/CustomDropdown.dart';
 import 'package:raspbian_radio_app/widgets/CustomButtonWidget.dart';
 import 'package:raspbian_radio_app/widgets/HerderContainer.dart';
 import 'package:raspbian_radio_app/widgets/CustomSliderWidget.dart';
+
+import 'PageSettings.dart';
 
 class RadioPage extends StatefulWidget {
   @override
@@ -53,7 +57,7 @@ class _RadioPageState extends State<RadioPage> {
                       margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.centerRight,
                       child: Text(
-                        "Stacja",
+                        "Station",
                       ),
                     ),
                     Expanded(
@@ -75,7 +79,7 @@ class _RadioPageState extends State<RadioPage> {
                             return CustomDropdown(
                               value: webRadioSelectedItem,
                               hint: Text(
-                                "Wybierz stację",
+                                "Select",
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.white,
@@ -100,7 +104,7 @@ class _RadioPageState extends State<RadioPage> {
                               },
                             );
                           } else if (snapshot.hasError) {
-                            return Text("${snapshot.error}");
+                            return Text("No connection to the API swerer");
                           }
                           return CircularProgressIndicator();
                         },
@@ -110,38 +114,42 @@ class _RadioPageState extends State<RadioPage> {
                       margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.centerRight,
                       child: Text(
-                        "Sterowanie",
+                        "Control",
                       ),
                     ),
-                    Expanded(
-                      child: Center(
-                        child: CustomButtonWidget(
-                          onClick: () {
-                            setState(() {
-                              playRadio(webRadioSelectedItem!);
-                            });
-                          },
-                          btnText: "Play",
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Center(
+                            child: CustomButtonWidget(
+                              onClick: () {
+                                setState(() {
+                                  playRadio(webRadioSelectedItem!);
+                                });
+                              },
+                              btnText: "Play",
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: CustomButtonWidget(
-                          onClick: () {
-                            setState(() {
-                              stopRadio();
-                            });
-                          },
-                          btnText: "Stop",
+                        Expanded(
+                          child: Center(
+                            child: CustomButtonWidget(
+                              onClick: () {
+                                setState(() {
+                                  stopRadio();
+                                });
+                              },
+                              btnText: "Stop",
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.centerRight,
                       child: Text(
-                        "Głośność",
+                        "Volume",
                       ),
                     ),
                     Expanded(
@@ -173,14 +181,36 @@ class _RadioPageState extends State<RadioPage> {
                                   },
                                 );
                               } else if (snapshot.hasError) {
-                                return Text("${snapshot.error}");
+                                return Text("No connection to the API swerer");
                               }
                               return CircularProgressIndicator();
                             })),
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "Settings",
+                      ),
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(top: 10),
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                          icon: FaIcon(FontAwesomeIcons.cogs,
+                              color: lightColor, size: 32),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PageSettings()),
+                            );
+                          },
+                          alignment: Alignment.center,
+                        )),
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
