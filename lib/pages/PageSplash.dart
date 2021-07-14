@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:raspbian_radio_app/utils/Syle.dart';
 import 'package:raspbian_radio_app/pages/PageRadio.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -29,7 +30,11 @@ class _SplashPageState extends State<SplashPage> {
               begin: Alignment.topCenter),
         ),
         child: Center(
-          child: Image.asset("assets/logo.png"),
+          child: FaIcon(
+            FontAwesomeIcons.podcast,
+            color: Colors.white,
+            size: 340,
+          ),
         ),
       ),
     );

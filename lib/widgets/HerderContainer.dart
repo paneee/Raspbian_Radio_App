@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raspbian_radio_app/utils/Syle.dart';
 
 // ignore: must_be_immutable
@@ -27,7 +28,11 @@ class HeaderContainer extends StatelessWidget {
                 style: TextStyle(color: Colors.white, fontSize: 20),
               )),
           Center(
-            child: Image.asset("assets/logo.png"),
+            child: FaIcon(
+              FontAwesomeIcons.podcast,
+              color: Colors.white,
+              size: 200,
+            ),
           ),
         ],
       ),
