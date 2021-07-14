@@ -48,8 +48,8 @@ class _PageSettingsState extends State<PageSettings> {
                       ),
                     ),
                     CustomTextInput(
-                      hint: "IP",
-                    )
+                      hint: "IP Address",
+                    ),
                   ],
                 ),
               ),
