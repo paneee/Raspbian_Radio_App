@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raspbian_radio_app/utils/Syle.dart';
-import 'package:raspbian_radio_app/utils/WebRadios.dart';
+import 'package:raspbian_radio_app/models/WebRadios.dart';
 
 // ignore: must_be_immutable
 class CustomDropdown extends StatefulWidget {

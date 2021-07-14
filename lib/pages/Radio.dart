@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raspbian_radio_app/api/api.dart';
-import 'package:raspbian_radio_app/utils/Syle.dart';
-import 'package:raspbian_radio_app/utils/WebRadios.dart';
+import 'package:raspbian_radio_app/models/WebRadios.dart';
 import 'package:raspbian_radio_app/widgets/CustomDropdown.dart';
 import 'package:raspbian_radio_app/widgets/CustomButtonWidget.dart';
 import 'package:raspbian_radio_app/widgets/HerderContainer.dart';
