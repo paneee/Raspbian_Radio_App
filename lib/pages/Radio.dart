@@ -8,11 +8,11 @@ import 'package:raspbian_radio_app/widgets/CustomButtonWidget.dart';
 import 'package:raspbian_radio_app/widgets/HerderContainer.dart';
 import 'package:raspbian_radio_app/widgets/CustomSliderWidget.dart';
 
-import 'PageSettings.dart';
+import 'Settings.dart';
 
-class RadioPage extends StatefulWidget {
+class PageRadio extends StatefulWidget {
   @override
-  _RadioPageState createState() => _RadioPageState();
+  _PageRadioState createState() => _PageRadioState();
 }
 
 double? currentVolume;
@@ -24,7 +24,7 @@ Future<double>? futureVolume;
 Future<WebRadio>? futureActualPlaying;
 Future<List<WebRadio>>? futureRadioList;
 
-class _RadioPageState extends State<RadioPage> {
+class _PageRadioState extends State<PageRadio> {
   @override
   void initState() {
     super.initState();

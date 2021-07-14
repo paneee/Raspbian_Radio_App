@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:raspbian_radio_app/pages/PageSplash.dart';
+import 'package:raspbian_radio_app/pages/Splash.dart';
 
 void main() {
   runApp(MyApp());

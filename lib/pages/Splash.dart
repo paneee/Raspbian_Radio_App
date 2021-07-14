@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:raspbian_radio_app/utils/Syle.dart';
-import 'package:raspbian_radio_app/pages/PageRadio.dart';
+import 'package:raspbian_radio_app/pages/Radio.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SplashPage extends StatefulWidget {
@@ -15,7 +15,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     Timer(const Duration(milliseconds: 500), () {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => RadioPage()));
+          context, MaterialPageRoute(builder: (context) => PageRadio()));
     });
   }
 
