@@ -7,8 +7,7 @@ import 'package:raspbian_radio_app/widgets/CustomDropdown.dart';
 import 'package:raspbian_radio_app/widgets/CustomButtonWidget.dart';
 import 'package:raspbian_radio_app/widgets/HerderContainer.dart';
 import 'package:raspbian_radio_app/widgets/CustomSliderWidget.dart';
-
-import 'Settings.dart';
+import 'package:raspbian_radio_app/pages/Settings.dart';
 
 class PageRadio extends StatefulWidget {
   @override
@@ -45,7 +44,18 @@ class _PageRadioState extends State<PageRadio> {
         padding: EdgeInsets.only(bottom: 30),
         child: Column(
           children: <Widget>[
-            HeaderContainer("Raspbian Web Radio"),
+            HeaderContainer(
+                text: "Raspbian Web Radio",
+                item: IconButton(
+                  icon: FaIcon(FontAwesomeIcons.cogs,
+                      color: Colors.white, size: 32),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PageSettings()),
+                    );
+                  },
+                )),
             Expanded(
               flex: 1,
               child: Container(
@@ -192,21 +202,6 @@ class _PageRadioState extends State<PageRadio> {
                         "Settings",
                       ),
                     ),
-                    Container(
-                        margin: EdgeInsets.only(top: 10),
-                        alignment: Alignment.centerRight,
-                        child: IconButton(
-                          icon: FaIcon(FontAwesomeIcons.cogs,
-                              color: lightColor, size: 32),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PageSettings()),
-                            );
-                          },
-                          alignment: Alignment.center,
-                        )),
                   ],
                 ),
               ),

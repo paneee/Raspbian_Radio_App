@@ -4,9 +4,13 @@ import 'package:raspbian_radio_app/utils/Syle.dart';
 
 // ignore: must_be_immutable
 class HeaderContainer extends StatelessWidget {
-  var text = "Login";
+  var text = "";
+  var item;
 
-  HeaderContainer(this.text);
+  HeaderContainer({
+    required this.text,
+    required this.item,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +24,11 @@ class HeaderContainer extends StatelessWidget {
           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(100))),
       child: Stack(
         children: <Widget>[
+          Positioned(
+            child: item,
+            top: 20,
+            left: 20,
+          ),
           Positioned(
               bottom: 20,
               right: 20,

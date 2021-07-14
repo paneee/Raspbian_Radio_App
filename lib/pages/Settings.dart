@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raspbian_radio_app/api/api.dart';
 import 'package:raspbian_radio_app/utils/WebRadios.dart';
 import 'package:raspbian_radio_app/widgets/HerderContainer.dart';
@@ -8,27 +9,10 @@ class PageSettings extends StatefulWidget {
   _PageSettingsState createState() => _PageSettingsState();
 }
 
-double? currentVolume;
-WebRadio? webRadioSelectedItem;
-bool? firstLoadSlider;
-bool? firstLoadDropDown;
-
-Future<double>? futureVolume;
-Future<WebRadio>? futureActualPlaying;
-Future<List<WebRadio>>? futureRadioList;
-
 class _PageSettingsState extends State<PageSettings> {
   @override
   void initState() {
     super.initState();
-
-    currentVolume = 0;
-
-    futureRadioList = getRadios();
-    futureVolume = getVolume();
-
-    firstLoadSlider = true;
-    firstLoadDropDown = true;
   }
 
   @override
@@ -38,7 +22,15 @@ class _PageSettingsState extends State<PageSettings> {
         padding: EdgeInsets.only(bottom: 30),
         child: Column(
           children: <Widget>[
-            HeaderContainer("Raspbian Web Radio"),
+            HeaderContainer(
+                text: "Raspbian Web Radio",
+                item: IconButton(
+                  icon: FaIcon(FontAwesomeIcons.arrowCircleLeft,
+                      color: Colors.white, size: 38),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                )),
             Expanded(
               flex: 1,
               child: Container(
@@ -50,7 +42,7 @@ class _PageSettingsState extends State<PageSettings> {
                       margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.centerRight,
                       child: Text(
-                        "Station",
+                        "Settings",
                       ),
                     ),
                   ],
