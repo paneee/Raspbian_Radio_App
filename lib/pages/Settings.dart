@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:raspbian_radio_app/widgets/CustomTextInput.dart';
 import 'package:raspbian_radio_app/widgets/HerderContainer.dart';
 
 class PageSettings extends StatefulWidget {
@@ -7,10 +8,13 @@ class PageSettings extends StatefulWidget {
   _PageSettingsState createState() => _PageSettingsState();
 }
 
+int? ip;
+
 class _PageSettingsState extends State<PageSettings> {
   @override
   void initState() {
     super.initState();
+    ip = 0;
   }
 
   @override
@@ -40,9 +44,12 @@ class _PageSettingsState extends State<PageSettings> {
                       margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.centerRight,
                       child: Text(
-                        "Settings",
+                        "API server network settings",
                       ),
                     ),
+                    CustomTextInput(
+                      hint: "IP",
+                    )
                   ],
                 ),
               ),
