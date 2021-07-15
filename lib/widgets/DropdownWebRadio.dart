@@ -44,6 +44,7 @@ class _CustomDropdownWebRadioState extends State<CustomDropdownWebRadio> {
                   items: this.widget.items,
                 )),
             width: double.infinity,
+            height: 60,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [darkColor, lightColor],

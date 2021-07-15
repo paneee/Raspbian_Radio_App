@@ -54,154 +54,137 @@ class _PageRadioState extends State<PageRadio> {
                     );
                   },
                 )),
-            Expanded(
-              flex: 1,
-              child: Container(
-                margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "Station",
-                      ),
+            Container(
+              margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "Station",
                     ),
-                    Expanded(
+                  ),
+                  Container(
                       child: FutureBuilder<List<WebRadio>>(
-                        future: futureRadioList,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            if ((snapshot.connectionState ==
-                                    ConnectionState.done) &&
-                                (firstLoadDropDown == true)) {
-                              for (WebRadio item in snapshot.data!) {
-                                if (item.isPlaying == true) {
-                                  webRadioSelectedItem = item;
-                                }
-                              }
-                              firstLoadDropDown = false;
+                    future: futureRadioList,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        if ((snapshot.connectionState ==
+                                ConnectionState.done) &&
+                            (firstLoadDropDown == true)) {
+                          for (WebRadio item in snapshot.data!) {
+                            if (item.isPlaying == true) {
+                              webRadioSelectedItem = item;
                             }
+                          }
+                          firstLoadDropDown = false;
+                        }
 
-                            return CustomDropdownWebRadio(
-                              value: webRadioSelectedItem,
-                              hint: Text(
-                                "Select radio station",
+                        return CustomDropdownWebRadio(
+                          value: webRadioSelectedItem,
+                          hint: Text(
+                            "Select radio station",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          items: snapshot.data!.map((WebRadio value) {
+                            return DropdownMenuItem<WebRadio>(
+                              value: value,
+                              child: Text(
+                                value.name!,
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
                               ),
-                              items: snapshot.data!.map((WebRadio value) {
-                                return DropdownMenuItem<WebRadio>(
-                                  value: value,
-                                  child: Text(
-                                    value.name!,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (webRadio) {
-                                setState(() {
-                                  webRadioSelectedItem = webRadio;
-                                });
-                              },
                             );
-                          } else if (snapshot.hasError) {
-                            return Text("No connection to the API swerer");
-                          }
-                          return CircularProgressIndicator();
-                        },
-                      ),
+                          }).toList(),
+                          onChanged: (webRadio) {
+                            setState(() {
+                              webRadioSelectedItem = webRadio;
+                            });
+                          },
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text("No connection to the API swerer");
+                      }
+                      return CircularProgressIndicator();
+                    },
+                  )),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "Control",
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "Control",
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: CustomButton(
-                              onClick: () {
-                                setState(() {
-                                  playRadio(webRadioSelectedItem!);
-                                });
-                              },
-                              btnText: "Play",
-                            ),
+                  ),
+                  Container(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                        Center(
+                          child: CustomButton(
+                            onClick: () {
+                              setState(() {
+                                playRadio(webRadioSelectedItem!);
+                              });
+                            },
+                            btnText: "Play",
                           ),
                         ),
-                        Expanded(
-                          child: Center(
-                            child: CustomButton(
-                              onClick: () {
-                                setState(() {
-                                  stopRadio();
-                                });
-                              },
-                              btnText: "Stop",
-                            ),
+                        Center(
+                          child: CustomButton(
+                            onClick: () {
+                              setState(() {
+                                stopRadio();
+                              });
+                            },
+                            btnText: "Stop",
                           ),
                         ),
-                      ],
+                      ])),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "Volume",
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "Volume",
-                      ),
-                    ),
-                    Expanded(
-                        child: FutureBuilder<double>(
-                            future: futureVolume,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                if ((snapshot.connectionState ==
-                                        ConnectionState.done) &&
-                                    (firstLoadSlider == true)) {
-                                  currentVolume = snapshot.data!;
-                                  firstLoadSlider = false;
-                                }
-                                return CustomSlider(
-                                  min: 0,
-                                  max: 100,
-                                  sliderHeight: 60,
-                                  fullWidth: true,
-                                  value: currentVolume,
-                                  onChanged: (volume) {
-                                    setState(() {
-                                      currentVolume = volume;
-                                    });
-                                  },
-                                  onChangeEnd: (_) {
-                                    setState(() {
-                                      setVolume(currentVolume!);
-                                    });
-                                  },
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text("No connection to the API swerer");
+                  ),
+                  Container(
+                      child: FutureBuilder<double>(
+                          future: futureVolume,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              if ((snapshot.connectionState ==
+                                      ConnectionState.done) &&
+                                  (firstLoadSlider == true)) {
+                                currentVolume = snapshot.data!;
+                                firstLoadSlider = false;
                               }
-                              return CircularProgressIndicator();
-                            })),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "Settings",
-                      ),
-                    ),
-                  ],
-                ),
+                              return CustomSlider(
+                                min: 0,
+                                max: 100,
+                                sliderHeight: 60,
+                                fullWidth: true,
+                                value: currentVolume,
+                                onChanged: (volume) {
+                                  setState(() {
+                                    currentVolume = volume;
+                                  });
+                                },
+                                onChangeEnd: (_) {
+                                  setState(() {
+                                    setVolume(currentVolume!);
+                                  });
+                                },
+                              );
+                            } else if (snapshot.hasError) {
+                              return Text("No connection to the API swerer");
+                            }
+                            return CircularProgressIndicator();
+                          })),
+                ],
               ),
             ),
           ],

@@ -1,4 +1,4 @@
-import 'package:raspbian_radio_app/data/sql.dart';
+import 'package:raspbian_radio_app/pages/Test.dart';
 import 'package:raspbian_radio_app/widgets/DropdownString.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raspbian_radio_app/widgets/TextInput.dart';
@@ -17,8 +17,8 @@ String? _ip;
 String? _selectedTheme;
 String? _port;
 var _itemTheme;
-final _ipController = TextEditingController();
-final _portController = TextEditingController();
+var _ipController = TextEditingController(text: "192.168.1.50");
+var _portController = TextEditingController(text: "5000");
 
 class _PageSettingsState extends State<PageSettings> {
   final _formKey = GlobalKey<FormState>();
@@ -64,75 +64,76 @@ class _PageSettingsState extends State<PageSettings> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            CustomTextInput(
-                              textController: _ipController,
-                              initialValue: _ip,
-                              labelText: "IP Address",
-                              validator: (value) {
-                                if (!Fzregex.hasMatch(value!, FzPattern.ipv4)) {
-                                  print(_ipController.text);
-                                  return "Enter correct IP Address";
-                                }
-                                return null;
-                              },
-                            ),
-                            CustomTextInput(
-                              textController: _portController,
-                              initialValue: _port,
-                              labelText: "Port number",
-                              validator: (value) {
-                                int temp = int.tryParse(value) ?? -1;
-                                if ((temp < 1) || (temp > 65535)) {
-                                  print(_portController.text);
-                                  return "Enter correct port number";
-                                }
-                                return null;
-                              },
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 10),
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                "Application theme ",
-                              ),
-                            ),
-                            CustomDropdownString(
-                              value: _selectedTheme,
-                              onChanged: (newValue) {
-                                _selectedTheme = newValue;
-                              },
-                              items: _itemTheme.map<DropdownMenuItem<String>>(
-                                  (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                            Container(
-                              alignment: Alignment.centerRight,
-                              margin: EdgeInsets.only(top: 10),
-                              child: Text(
-                                "Save setting",
-                              ),
-                            ),
-                            CustomButton(
-                              btnText: "Save",
-                              onClick: () {
-                                if (_formKey.currentState!.validate()) {
-                                  mainSQLite();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text('Settings saved')));
-                                }
-                              },
-                            ),
+                            // CustomTextInput(
+                            //   //textController: _ipController,
+                            //   initialValue: _ip,
+                            //   labelText: "IP Address",
+                            //   validator: (value) {
+                            //     if (!Fzregex.hasMatch(value!, FzPattern.ipv4)) {
+                            //       print(_ipController.text);
+                            //       return "Enter correct IP Address";
+                            //     }
+                            //     return null;
+                            //   },
+                            // ),
+                            // CustomTextInput(
+                            //   //textController: _portController,
+                            //   initialValue: _port,
+                            //   labelText: "Port number",
+                            //   validator: (value) {
+                            //     int temp = int.tryParse(value) ?? -1;
+                            //     if ((temp < 1) || (temp > 65535)) {
+                            //       print(_portController.text);
+                            //       return "Enter correct port number";
+                            //     }
+                            //     return null;
+                            //   },
+                            // ),
+                            // Container(
+                            //   margin: EdgeInsets.only(top: 10),
+                            //   alignment: Alignment.centerRight,
+                            //   child: Text(
+                            //     "Application theme ",
+                            //   ),
+                            // ),
+                            // CustomDropdownString(
+                            //   value: _selectedTheme,
+                            //   onChanged: (newValue) {
+                            //     _selectedTheme = newValue;
+                            //   },
+                            //   items: _itemTheme.map<DropdownMenuItem<String>>(
+                            //       (String value) {
+                            //     return DropdownMenuItem<String>(
+                            //       value: value,
+                            //       child: Text(
+                            //         value,
+                            //         style: TextStyle(
+                            //             fontSize: 20,
+                            //             color: Colors.white,
+                            //             fontWeight: FontWeight.bold),
+                            //       ),
+                            //     );
+                            //   }).toList(),
+                            // ),
+                            // Container(
+                            //   alignment: Alignment.centerRight,
+                            //   margin: EdgeInsets.only(top: 10),
+                            //   child: Text(
+                            //     "Save setting",
+                            //   ),
+                            // ),
+                            MyCustomForm(),
+                            // CustomButton(
+                            //   btnText: "Save",
+                            //   onClick: () {
+                            //     if (_formKey.currentState!.validate()) {
+                            //       //mainSQLite();
+                            //       ScaffoldMessenger.of(context).showSnackBar(
+                            //           SnackBar(
+                            //               content: Text('Settings saved')));
+                            //     }
+                            //   },
+                            // ),
                           ]))
                 ]),
               ),
