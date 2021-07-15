@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:raspbian_radio_app/utils/Syle.dart';
 
 // ignore: must_be_immutable
-class CustomButtonWidget extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   var btnText = "";
   var onClick;
 
-  CustomButtonWidget({required this.btnText, required this.onClick});
+  CustomButton({required this.btnText, required this.onClick});
 
   @override
   Widget build(BuildContext context) {

@@ -3,11 +3,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raspbian_radio_app/utils/Syle.dart';
 
 // ignore: must_be_immutable
-class HeaderContainer extends StatelessWidget {
+class CustomHeaderContainer extends StatelessWidget {
   var text = "";
   var item;
 
-  HeaderContainer({
+  CustomHeaderContainer({
     required this.text,
     required this.item,
   });

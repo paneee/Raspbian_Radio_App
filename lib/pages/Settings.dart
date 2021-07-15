@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:raspbian_radio_app/widgets/CustomTextInput.dart';
-import 'package:raspbian_radio_app/widgets/HerderContainer.dart';
+import 'package:raspbian_radio_app/widgets/TextInput.dart';
+import 'package:raspbian_radio_app/widgets/Herder.dart';
 
 class PageSettings extends StatefulWidget {
   @override
@@ -24,7 +24,7 @@ class _PageSettingsState extends State<PageSettings> {
         padding: EdgeInsets.only(bottom: 30),
         child: Column(
           children: <Widget>[
-            HeaderContainer(
+            CustomHeaderContainer(
                 text: "Raspbian Web Radio",
                 item: IconButton(
                   icon: FaIcon(FontAwesomeIcons.arrowCircleLeft,

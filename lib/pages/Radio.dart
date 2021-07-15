@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raspbian_radio_app/api/api.dart';
 import 'package:raspbian_radio_app/models/WebRadios.dart';
-import 'package:raspbian_radio_app/widgets/CustomDropdown.dart';
-import 'package:raspbian_radio_app/widgets/CustomButtonWidget.dart';
-import 'package:raspbian_radio_app/widgets/HerderContainer.dart';
-import 'package:raspbian_radio_app/widgets/CustomSliderWidget.dart';
+import 'package:raspbian_radio_app/widgets/Dropdown.dart';
+import 'package:raspbian_radio_app/widgets/Button.dart';
+import 'package:raspbian_radio_app/widgets/Herder.dart';
+import 'package:raspbian_radio_app/widgets/Slider.dart';
 import 'package:raspbian_radio_app/pages/Settings.dart';
 
 class PageRadio extends StatefulWidget {
@@ -43,7 +43,7 @@ class _PageRadioState extends State<PageRadio> {
         padding: EdgeInsets.only(bottom: 30),
         child: Column(
           children: <Widget>[
-            HeaderContainer(
+            CustomHeaderContainer(
                 text: "Raspbian Web Radio",
                 item: IconButton(
                   icon: FaIcon(FontAwesomeIcons.cogs,
@@ -130,7 +130,7 @@ class _PageRadioState extends State<PageRadio> {
                       children: [
                         Expanded(
                           child: Center(
-                            child: CustomButtonWidget(
+                            child: CustomButton(
                               onClick: () {
                                 setState(() {
                                   playRadio(webRadioSelectedItem!);
@@ -142,7 +142,7 @@ class _PageRadioState extends State<PageRadio> {
                         ),
                         Expanded(
                           child: Center(
-                            child: CustomButtonWidget(
+                            child: CustomButton(
                               onClick: () {
                                 setState(() {
                                   stopRadio();
@@ -172,7 +172,7 @@ class _PageRadioState extends State<PageRadio> {
                                   currentVolume = snapshot.data!;
                                   firstLoadSlider = false;
                                 }
-                                return CustomSliderWidget(
+                                return CustomSlider(
                                   min: 0,
                                   max: 100,
                                   sliderHeight: 60,
