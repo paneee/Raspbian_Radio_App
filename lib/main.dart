@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
 
 
 // ToDo: 
-// Settings with ip and port (new page)
+// Change theme (color), ponowne zaladowanie strony po przycisku return
 // Integration with SQL for save settings
-// Change theme (color)
-// Reakcja przycisku na nacisniecie
+// Marginesy paddingi dla nowego button-a
