@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raspbian_radio_app/api/api.dart';
 import 'package:raspbian_radio_app/models/WebRadios.dart';
 import 'package:raspbian_radio_app/widgets/Button.dart';
-import 'package:raspbian_radio_app/widgets/Dropdown.dart';
+import 'package:raspbian_radio_app/widgets/DropdownWebRadio.dart';
 import 'package:raspbian_radio_app/widgets/Herder.dart';
 import 'package:raspbian_radio_app/widgets/Slider.dart';
 import 'package:raspbian_radio_app/pages/Settings.dart';
@@ -40,7 +40,6 @@ class _PageRadioState extends State<PageRadio> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(bottom: 30),
         child: Column(
           children: <Widget>[
             CustomHeaderContainer(
@@ -58,7 +57,7 @@ class _PageRadioState extends State<PageRadio> {
             Expanded(
               flex: 1,
               child: Container(
-                margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+                margin: EdgeInsets.only(left: 20, right: 20, top: 20),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
@@ -85,7 +84,7 @@ class _PageRadioState extends State<PageRadio> {
                               firstLoadDropDown = false;
                             }
 
-                            return CustomDropdown(
+                            return CustomDropdownWebRadio(
                               value: webRadioSelectedItem,
                               hint: Text(
                                 "Select radio station",

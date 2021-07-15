@@ -3,21 +3,21 @@ import 'package:raspbian_radio_app/utils/Syle.dart';
 import 'package:raspbian_radio_app/models/WebRadios.dart';
 
 // ignore: must_be_immutable
-class CustomDropdown extends StatefulWidget {
+class CustomDropdownWebRadio extends StatefulWidget {
   var hint;
   var items;
   var onChanged;
   var value;
 
-  CustomDropdown({this.hint, this.items, this.onChanged, this.value});
+  CustomDropdownWebRadio({this.hint, this.items, this.onChanged, this.value});
 
   @override
   State<StatefulWidget> createState() {
-    return _CustomDropdownState();
+    return _CustomDropdownWebRadioState();
   }
 }
 
-class _CustomDropdownState extends State<CustomDropdown> {
+class _CustomDropdownWebRadioState extends State<CustomDropdownWebRadio> {
   int currentValue = 0;
 
   @override
@@ -27,6 +27,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Container(
+            padding: EdgeInsets.all(20.0),
             child: Theme(
                 data: Theme.of(context).copyWith(
                   canvasColor: darkColor,
@@ -34,8 +35,8 @@ class _CustomDropdownState extends State<CustomDropdown> {
                 child: DropdownButton<WebRadio>(
                   value: this.widget.value,
                   hint: this.widget.hint,
-                  iconSize: 24,
-                  elevation: 16,
+                  // iconSize: 24,
+                  // elevation: 16,
                   style: const TextStyle(color: Colors.white),
                   underline: Container(
                     height: 0,
@@ -45,7 +46,6 @@ class _CustomDropdownState extends State<CustomDropdown> {
                   items: this.widget.items,
                 )),
             width: double.infinity,
-            height: 60,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [darkColor, lightColor],

@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:raspbian_radio_app/widgets/DropdownString.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fzregex/utils/fzregex.dart';
-import 'package:fzregex/utils/pattern.dart';
-import 'package:raspbian_radio_app/widgets/Button.dart';
 import 'package:raspbian_radio_app/widgets/TextInput.dart';
 import 'package:raspbian_radio_app/widgets/Herder.dart';
+import 'package:raspbian_radio_app/widgets/Button.dart';
+import 'package:fzregex/utils/fzregex.dart';
+import 'package:fzregex/utils/pattern.dart';
+import 'package:flutter/material.dart';
 
 class PageSettings extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class PageSettings extends StatefulWidget {
 }
 
 int? ip;
+String? selectedTheme;
 
 class _PageSettingsState extends State<PageSettings> {
   final _formKey = GlobalKey<FormState>();
@@ -25,35 +27,33 @@ class _PageSettingsState extends State<PageSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            padding: EdgeInsets.only(bottom: 30),
-            child: Column(children: <Widget>[
-              CustomHeaderContainer(
-                  text: "Raspbian Web Radio",
-                  item: IconButton(
-                    icon: FaIcon(FontAwesomeIcons.arrowCircleLeft,
-                        color: Colors.white, size: 38),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  )),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  margin: EdgeInsets.only(left: 20, right: 20, top: 30),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          "API server network settings",
-                        ),
-                      ),
-                      Form(
-                        key: _formKey,
-                        child: Column(
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            CustomHeaderContainer(
+                text: "Raspbian Web Radio",
+                item: IconButton(
+                  icon: FaIcon(FontAwesomeIcons.arrowCircleLeft,
+                      color: Colors.white, size: 38),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                )),
+            Expanded(
+              flex: 1,
+              child: Container(
+                margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                child:
+                    Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
+                  Container(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "API server network settings",
+                    ),
+                  ),
+                  Form(
+                      key: _formKey,
+                      child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             CustomTextInput(
@@ -75,6 +75,40 @@ class _PageSettingsState extends State<PageSettings> {
                                 return null;
                               },
                             ),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                "Application theme ",
+                              ),
+                            ),
+                            CustomDropdownString(
+                              value: "Two",
+                              items: <String>[
+                                'One',
+                                'Two',
+                                'Free',
+                                'Four'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                            Container(
+                              alignment: Alignment.centerRight,
+                              margin: EdgeInsets.only(top: 10),
+                              child: Text(
+                                "Save setting",
+                              ),
+                            ),
                             CustomButton(
                               btnText: "Save",
                               onClick: () {
@@ -84,14 +118,14 @@ class _PageSettingsState extends State<PageSettings> {
                                           content: Text('Settings saved')));
                                 }
                               },
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ])));
+                            ),
+                          ]))
+                ]),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
