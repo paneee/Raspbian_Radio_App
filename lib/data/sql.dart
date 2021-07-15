@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
-import 'package:raspbian_radio_app/api/api.dart';
 import 'package:raspbian_radio_app/models/Settings.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -94,19 +93,7 @@ void mainSQLite() async {
   print(await settings());
 }
 
-class Dog {
-  final int id;
-  final String name;
-  final int age;
-
-  Dog({
-    required this.id,
-    required this.name,
-    required this.age,
-  });
-
-  @override
-  String toString() {
-    return 'Settings{id: $id, ip: $ip, port: $port}';
-  }
-}
+// @override
+// String toString() {
+//   return 'Settings{id: $id, ip: $ip, port: $port}';
+// }

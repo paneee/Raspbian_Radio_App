@@ -40,7 +40,7 @@ class _CustomDropdownStringState extends State<CustomDropdownString> {
                     ),
                     onChanged: (String? value) {
                       setState(() {
-                        //selectedTheme = value!;
+                        this.widget.value = value!;
                       });
                     },
                     items: this.widget.items)),

@@ -1,5 +1,4 @@
 import 'package:raspbian_radio_app/data/sql.dart';
-import 'package:raspbian_radio_app/main.dart';
 import 'package:raspbian_radio_app/widgets/DropdownString.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raspbian_radio_app/widgets/TextInput.dart';
@@ -18,6 +17,8 @@ String? _ip;
 String? _selectedTheme;
 String? _port;
 var _itemTheme;
+final _ipController = TextEditingController();
+final _portController = TextEditingController();
 
 class _PageSettingsState extends State<PageSettings> {
   final _formKey = GlobalKey<FormState>();
@@ -64,19 +65,25 @@ class _PageSettingsState extends State<PageSettings> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             CustomTextInput(
+                              textController: _ipController,
+                              initialValue: _ip,
                               labelText: "IP Address",
                               validator: (value) {
                                 if (!Fzregex.hasMatch(value!, FzPattern.ipv4)) {
+                                  print(_ipController.text);
                                   return "Enter correct IP Address";
                                 }
                                 return null;
                               },
                             ),
                             CustomTextInput(
+                              textController: _portController,
+                              initialValue: _port,
                               labelText: "Port number",
                               validator: (value) {
                                 int temp = int.tryParse(value) ?? -1;
                                 if ((temp < 1) || (temp > 65535)) {
+                                  print(_portController.text);
                                   return "Enter correct port number";
                                 }
                                 return null;
@@ -99,7 +106,7 @@ class _PageSettingsState extends State<PageSettings> {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(
-                                    _selectedTheme!,
+                                    value,
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: Colors.white,
@@ -119,7 +126,7 @@ class _PageSettingsState extends State<PageSettings> {
                               btnText: "Save",
                               onClick: () {
                                 if (_formKey.currentState!.validate()) {
-                                  //mainSQLite();
+                                  mainSQLite();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           content: Text('Settings saved')));
