@@ -10,7 +10,7 @@ class CustomButton extends StatelessWidget {
   CustomButton({required this.btnText, this.onClick});
 
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
       child: ElevatedButton(
         onPressed: onClick,
         style: ElevatedButton.styleFrom(
