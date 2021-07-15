@@ -39,157 +39,159 @@ class _PageRadioState extends State<PageRadio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            CustomHeaderContainer(
-                text: "Raspbian Web Radio",
-                item: IconButton(
-                  icon: FaIcon(FontAwesomeIcons.cogs,
-                      color: Colors.white, size: 32),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => PageSettings()),
-                    );
-                  },
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+          Container(
+              child: CustomHeaderContainer(
+                  text: "Raspbian Web Radio",
+                  item: IconButton(
+                    icon: FaIcon(FontAwesomeIcons.cogs,
+                        color: Colors.white, size: 32),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => PageSettings()),
+                      );
+                    },
+                  ))),
+          Column(children: [
+            Container(
+                alignment: Alignment.centerRight,
+                margin: EdgeInsets.only(right: 50, bottom: 10),
+                child: Text(
+                  "Station",
+                  textAlign: TextAlign.right,
                 )),
             Container(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "Station",
-                    ),
-                  ),
-                  Container(
-                      child: FutureBuilder<List<WebRadio>>(
-                    future: futureRadioList,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        if ((snapshot.connectionState ==
-                                ConnectionState.done) &&
-                            (firstLoadDropDown == true)) {
-                          for (WebRadio item in snapshot.data!) {
-                            if (item.isPlaying == true) {
-                              webRadioSelectedItem = item;
-                            }
+                margin: EdgeInsets.only(right: 30.0, left: 30.0),
+                child: FutureBuilder<List<WebRadio>>(
+                  future: futureRadioList,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if ((snapshot.connectionState == ConnectionState.done) &&
+                          (firstLoadDropDown == true)) {
+                        for (WebRadio item in snapshot.data!) {
+                          if (item.isPlaying == true) {
+                            webRadioSelectedItem = item;
                           }
-                          firstLoadDropDown = false;
                         }
+                        firstLoadDropDown = false;
+                      }
 
-                        return CustomDropdownWebRadio(
-                          value: webRadioSelectedItem,
-                          hint: Text(
-                            "Select radio station",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          items: snapshot.data!.map((WebRadio value) {
-                            return DropdownMenuItem<WebRadio>(
-                              value: value,
-                              child: Text(
-                                value.name!,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (webRadio) {
+                      return CustomDropdownWebRadio(
+                        value: webRadioSelectedItem,
+                        hint: Text(
+                          "Select radio station",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        items: snapshot.data!.map((WebRadio value) {
+                          return DropdownMenuItem<WebRadio>(
+                            value: value,
+                            child: Text(
+                              value.name!,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (webRadio) {
+                          setState(() {
+                            webRadioSelectedItem = webRadio;
+                          });
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text("No connection to the API swerer");
+                    }
+                    return CircularProgressIndicator();
+                  },
+                ))
+          ]),
+          Column(children: [
+            Container(
+                alignment: Alignment.centerRight,
+                margin: EdgeInsets.only(right: 50, bottom: 10),
+                child: Text(
+                  "Control",
+                )),
+            Container(
+                margin: EdgeInsets.only(right: 30.0, left: 30.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Center(
+                        child: CustomButton(
+                          onClick: () {
                             setState(() {
-                              webRadioSelectedItem = webRadio;
+                              playRadio(webRadioSelectedItem!);
                             });
                           },
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text("No connection to the API swerer");
-                      }
-                      return CircularProgressIndicator();
-                    },
+                          btnText: "Play",
+                        ),
+                      ),
+                      Center(
+                        child: CustomButton(
+                          onClick: () {
+                            setState(() {
+                              stopRadio();
+                            });
+                          },
+                          btnText: "Stop",
+                        ),
+                      ),
+                    ]))
+          ]),
+          Column(
+            children: [
+              Container(
+                  alignment: Alignment.centerRight,
+                  margin: EdgeInsets.only(right: 50, bottom: 10),
+                  child: Text(
+                    "Volume",
                   )),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "Control",
-                    ),
-                  ),
-                  Container(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                        Center(
-                          child: CustomButton(
-                            onClick: () {
+              Container(
+                  margin:
+                      EdgeInsets.only(bottom: 50.0, right: 30.0, left: 30.0),
+                  child: FutureBuilder<double>(
+                      future: futureVolume,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          if ((snapshot.connectionState ==
+                                  ConnectionState.done) &&
+                              (firstLoadSlider == true)) {
+                            currentVolume = snapshot.data!;
+                            firstLoadSlider = false;
+                          }
+                          return CustomSlider(
+                            min: 0,
+                            max: 100,
+                            sliderHeight: 60,
+                            fullWidth: true,
+                            value: currentVolume,
+                            onChanged: (volume) {
                               setState(() {
-                                playRadio(webRadioSelectedItem!);
+                                currentVolume = volume;
                               });
                             },
-                            btnText: "Play",
-                          ),
-                        ),
-                        Center(
-                          child: CustomButton(
-                            onClick: () {
+                            onChangeEnd: (_) {
                               setState(() {
-                                stopRadio();
+                                setVolume(currentVolume!);
                               });
                             },
-                            btnText: "Stop",
-                          ),
-                        ),
-                      ])),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "Volume",
-                    ),
-                  ),
-                  Container(
-                      child: FutureBuilder<double>(
-                          future: futureVolume,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              if ((snapshot.connectionState ==
-                                      ConnectionState.done) &&
-                                  (firstLoadSlider == true)) {
-                                currentVolume = snapshot.data!;
-                                firstLoadSlider = false;
-                              }
-                              return CustomSlider(
-                                min: 0,
-                                max: 100,
-                                sliderHeight: 60,
-                                fullWidth: true,
-                                value: currentVolume,
-                                onChanged: (volume) {
-                                  setState(() {
-                                    currentVolume = volume;
-                                  });
-                                },
-                                onChangeEnd: (_) {
-                                  setState(() {
-                                    setVolume(currentVolume!);
-                                  });
-                                },
-                              );
-                            } else if (snapshot.hasError) {
-                              return Text("No connection to the API swerer");
-                            }
-                            return CircularProgressIndicator();
-                          })),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text("No connection to the API swerer");
+                        }
+                        return CircularProgressIndicator();
+                      })),
+            ],
+          ),
+        ]));
   }
 }
