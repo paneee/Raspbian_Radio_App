@@ -35,8 +35,6 @@ class _CustomDropdownWebRadioState extends State<CustomDropdownWebRadio> {
                 child: DropdownButton<WebRadio>(
                   value: this.widget.value,
                   hint: this.widget.hint,
-                  // iconSize: 24,
-                  // elevation: 16,
                   style: const TextStyle(color: Colors.white),
                   underline: Container(
                     height: 0,

@@ -83,7 +83,10 @@ class _PageSettingsState extends State<PageSettings> {
                               ),
                             ),
                             CustomDropdownString(
-                              value: "Two",
+                              value: selectedTheme,
+                              onChanged: (value) {
+                                selectedTheme = value;
+                              },
                               items: <String>[
                                 'One',
                                 'Two',
