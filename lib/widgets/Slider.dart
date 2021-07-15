@@ -38,7 +38,7 @@ class _CustomSliderState extends State<CustomSlider> {
       height: (this.widget.sliderHeight),
       decoration: new BoxDecoration(
         borderRadius: new BorderRadius.all(
-          Radius.circular(10),
+          Radius.circular(25),
         ),
         gradient: new LinearGradient(
             colors: [lightColor, darkColor],

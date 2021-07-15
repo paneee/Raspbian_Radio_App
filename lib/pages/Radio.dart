@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raspbian_radio_app/api/api.dart';
 import 'package:raspbian_radio_app/models/WebRadios.dart';
-import 'package:raspbian_radio_app/widgets/Dropdown.dart';
 import 'package:raspbian_radio_app/widgets/Button.dart';
+import 'package:raspbian_radio_app/widgets/Dropdown.dart';
 import 'package:raspbian_radio_app/widgets/Herder.dart';
 import 'package:raspbian_radio_app/widgets/Slider.dart';
 import 'package:raspbian_radio_app/pages/Settings.dart';
@@ -88,7 +88,7 @@ class _PageRadioState extends State<PageRadio> {
                             return CustomDropdown(
                               value: webRadioSelectedItem,
                               hint: Text(
-                                "Select",
+                                "Select radio station",
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.white,

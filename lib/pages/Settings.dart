@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:raspbian_radio_app/widgets/Button.dart';
 import 'package:raspbian_radio_app/widgets/TextInput.dart';
 import 'package:raspbian_radio_app/widgets/Herder.dart';
 
@@ -50,6 +51,10 @@ class _PageSettingsState extends State<PageSettings> {
                     CustomTextInput(
                       hint: "IP Address",
                     ),
+                    // CustomButton(
+                    //   btnText: "Save",
+                    //   onClick: (_) {},
+                    // ),
                   ],
                 ),
               ),

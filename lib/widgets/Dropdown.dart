@@ -52,7 +52,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                   end: Alignment.centerLeft,
                   begin: Alignment.centerRight),
               borderRadius: BorderRadius.all(
-                Radius.circular(10),
+                Radius.circular(25),
               ),
             ),
             alignment: Alignment.center,
