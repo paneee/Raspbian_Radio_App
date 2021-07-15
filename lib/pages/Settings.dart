@@ -1,3 +1,5 @@
+import 'package:raspbian_radio_app/data/sql.dart';
+import 'package:raspbian_radio_app/main.dart';
 import 'package:raspbian_radio_app/widgets/DropdownString.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raspbian_radio_app/widgets/TextInput.dart';
@@ -12,8 +14,10 @@ class PageSettings extends StatefulWidget {
   _PageSettingsState createState() => _PageSettingsState();
 }
 
-int? ip;
-String? selectedTheme;
+String? _ip;
+String? _selectedTheme;
+String? _port;
+var _itemTheme;
 
 class _PageSettingsState extends State<PageSettings> {
   final _formKey = GlobalKey<FormState>();
@@ -21,7 +25,10 @@ class _PageSettingsState extends State<PageSettings> {
   @override
   void initState() {
     super.initState();
-    ip = 0;
+    _ip = "192.168.1.50";
+    _port = "5000";
+    _itemTheme = ['Red', 'Blue', 'Green', 'Orange'];
+    _selectedTheme = 'Red';
   }
 
   @override
@@ -83,20 +90,16 @@ class _PageSettingsState extends State<PageSettings> {
                               ),
                             ),
                             CustomDropdownString(
-                              value: selectedTheme,
-                              onChanged: (value) {
-                                selectedTheme = value;
+                              value: _selectedTheme,
+                              onChanged: (newValue) {
+                                _selectedTheme = newValue;
                               },
-                              items: <String>[
-                                'One',
-                                'Two',
-                                'Free',
-                                'Four'
-                              ].map<DropdownMenuItem<String>>((String value) {
+                              items: _itemTheme.map<DropdownMenuItem<String>>(
+                                  (String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(
-                                    value,
+                                    _selectedTheme!,
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: Colors.white,
@@ -116,6 +119,7 @@ class _PageSettingsState extends State<PageSettings> {
                               btnText: "Save",
                               onClick: () {
                                 if (_formKey.currentState!.validate()) {
+                                  //mainSQLite();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           content: Text('Settings saved')));

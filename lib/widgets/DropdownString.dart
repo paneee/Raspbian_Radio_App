@@ -33,7 +33,7 @@ class _CustomDropdownStringState extends State<CustomDropdownString> {
                 ),
                 child: DropdownButton<String>(
                     style: const TextStyle(color: Colors.white),
-                    value: "Two",
+                    value: this.widget.value,
                     underline: Container(
                       height: 0,
                       color: Colors.deepPurpleAccent,
