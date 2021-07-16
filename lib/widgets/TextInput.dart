@@ -5,14 +5,10 @@ class CustomTextInput extends StatefulWidget {
   var validator;
   var textValidator;
   var labelText;
-  var initialValue;
+  var controller;
 
-  CustomTextInput({
-    this.validator,
-    this.textValidator,
-    this.labelText,
-    this.initialValue,
-  });
+  CustomTextInput(
+      {this.validator, this.textValidator, this.labelText, this.controller});
 
   @override
   _CustomTextInputState createState() => _CustomTextInputState();
@@ -27,7 +23,7 @@ class _CustomTextInputState extends State<CustomTextInput> {
           Container(
             padding: EdgeInsets.all(10.0),
             child: TextFormField(
-                initialValue: this.widget.initialValue,
+                controller: this.widget.controller,
                 decoration: InputDecoration(
                     errorStyle: TextStyle(fontSize: 10.0),
                     labelText: this.widget.labelText,

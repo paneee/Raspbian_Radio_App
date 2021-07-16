@@ -13,24 +13,36 @@ class PageSettings extends StatefulWidget {
   _PageSettingsState createState() => _PageSettingsState();
 }
 
-String? _ip;
 String? _selectedTheme;
-String? _port;
+
 var _itemTheme;
+var preferences;
 
 class _PageSettingsState extends State<PageSettings> {
   final _formKey = GlobalKey<FormState>();
+  String _ip = "";
+  String _port = "";
+  var controllerIp = TextEditingController();
+  var controllerPort = TextEditingController();
 
   @override
   void initState() {
     super.initState();
 
-    //_ip = "192.168.1.50";
-    //_port = "5000";
     _itemTheme = ['Red', 'Blue', 'Green', 'Orange'];
     _selectedTheme = 'Red';
-    _getIpSetting();
-    _getPortSetting();
+
+    initPreferences();
+  }
+
+  void initPreferences() async {
+    preferences = await SharedPreferences.getInstance();
+    setState(() {
+      _ip = (preferences.getString('ip') ?? "192.168.1.50");
+      _port = (preferences.getString('port') ?? "5000");
+      controllerIp.text = _ip;
+      controllerPort.text = _port;
+    });
   }
 
   @override
@@ -62,14 +74,15 @@ class _PageSettingsState extends State<PageSettings> {
             Container(
                 margin: EdgeInsets.only(right: 30, left: 30),
                 child: CustomTextInput(
-                  initialValue: _ip,
+                  controller: controllerIp,
                   labelText: "IP Address",
                   validator: (value) {
                     if (!Fzregex.hasMatch(value!, FzPattern.ipv4)) {
                       return "Enter correct IP Address";
                     } else {
-                      print(value);
-                      _saveIpSetting(value);
+                      _ip = value;
+                      preferences.setString("ip", value);
+                      controllerIp.text = _ip;
                       return null;
                     }
                   },
@@ -77,15 +90,16 @@ class _PageSettingsState extends State<PageSettings> {
             Container(
                 margin: EdgeInsets.only(right: 30, left: 30),
                 child: CustomTextInput(
-                  initialValue: _port,
+                  controller: controllerPort,
                   labelText: "Port number",
                   validator: (value) {
                     int temp = int.tryParse(value) ?? -1;
                     if ((temp < 1) || (temp > 65535)) {
                       return "Enter correct port number";
                     } else {
-                      print(temp);
-                      _savePortSetting(temp);
+                      _port = value.toString();
+                      preferences.setString("port", value.toString());
+                      controllerPort.text = _port;
                       return null;
                     }
                   },
@@ -136,6 +150,7 @@ class _PageSettingsState extends State<PageSettings> {
             child: CustomButton(
               btnText: "Save",
               onClick: () {
+                setState(() {});
                 if (_formKey.currentState!.validate()) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       backgroundColor: Colors.red[500],
@@ -155,24 +170,4 @@ class _PageSettingsState extends State<PageSettings> {
       ],
     ));
   }
-}
-
-void _saveIpSetting(ip) async {
-  final prefs = await SharedPreferences.getInstance();
-  prefs.setString("ip", ip);
-}
-
-void _savePortSetting(port) async {
-  final prefs = await SharedPreferences.getInstance();
-  prefs.setString("port", port);
-}
-
-void _getIpSetting() async {
-  final prefs = await SharedPreferences.getInstance();
-  _ip = prefs.getString('ip') ?? "";
-}
-
-void _getPortSetting() async {
-  final prefs = await SharedPreferences.getInstance();
-  _ip = prefs.getString('port') ?? "";
 }

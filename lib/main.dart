@@ -21,8 +21,6 @@ class MyApp extends StatelessWidget {
 }
 
 
-
-
 // import 'package:flutter/material.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
@@ -41,6 +39,7 @@ class MyApp extends StatelessWidget {
 //     );
 //   }
 // }
+
 // class MyHomePage extends StatefulWidget {
 //   MyHomePage({Key? key, required this.title}) : super(key: key);
 //   final String title;
@@ -58,22 +57,22 @@ class MyApp extends StatelessWidget {
 //     _loadCounter();
 //   }
 
-//   //Loading counter value on start
-//   void _loadCounter() async {
-//     final prefs = await SharedPreferences.getInstance();
-//     setState(() {
-//       _counter = (prefs.getInt('counter') ?? 0);
-//     });
-//   }
+  //Loading counter value on start
+  // void _loadCounter() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     _counter = (prefs.getInt('counter') ?? 0);
+  //   });
+  // }
 
-//   //Incrementing counter after click
-//   void _incrementCounter() async {
-//     final prefs = await SharedPreferences.getInstance();
-//     setState(() {
-//       _counter = (prefs.getInt('counter') ?? 0) + 1;
-//       prefs.setInt('counter', _counter);
-//     });
-//   }
+  // //Incrementing counter after click
+  // void _incrementCounter() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     _counter = (prefs.getInt('counter') ?? 0) + 1;
+  //     prefs.setInt('counter', _counter);
+  //   });
+  // }
 
 //   @override
 //   Widget build(BuildContext context) {

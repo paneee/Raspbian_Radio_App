@@ -122,10 +122,11 @@ class _PageRadioState extends State<PageRadio> {
                 )),
             Container(
                 margin: EdgeInsets.only(right: 30.0, left: 30.0),
-                child: Row(
+                child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Center(
+                      Container(
+                        margin: EdgeInsets.only(right: 10, left: 10),
                         child: CustomButton(
                           onClick: () {
                             setState(() {
@@ -135,7 +136,8 @@ class _PageRadioState extends State<PageRadio> {
                           btnText: "Play",
                         ),
                       ),
-                      Center(
+                      Container(
+                        margin: EdgeInsets.only(right: 10, left: 10),
                         child: CustomButton(
                           onClick: () {
                             setState(() {
