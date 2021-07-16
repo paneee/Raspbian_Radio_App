@@ -19,14 +19,14 @@ class CustomTextInput extends StatefulWidget {
 }
 
 class _CustomTextInputState extends State<CustomTextInput> {
-  final textController = TextEditingController(text: "gggggg");
+  // final textController = TextEditingController(text: "gggggg");
 
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    textController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // Clean up the controller when the widget is disposed.
+  //   textController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class _CustomTextInputState extends State<CustomTextInput> {
           Container(
             padding: EdgeInsets.all(10.0),
             child: TextFormField(
-                controller: textController,
+                //controller: textController,
                 initialValue: this.widget.initialValue,
                 decoration: InputDecoration(
                     errorStyle: TextStyle(fontSize: 10.0),

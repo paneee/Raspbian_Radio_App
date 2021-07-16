@@ -21,30 +21,29 @@ class _CustomDropdownStringState extends State<CustomDropdownString> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Center(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(2.0),
-            margin: EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(20.0),
             child: Theme(
                 data: Theme.of(context).copyWith(
                   canvasColor: darkColor,
                 ),
                 child: DropdownButton<String>(
-                    style: const TextStyle(color: Colors.white),
-                    value: this.widget.value,
-                    underline: Container(
-                      height: 0,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    onChanged: (String? value) {
-                      setState(() {
-                        this.widget.value = value!;
-                      });
-                    },
-                    items: this.widget.items)),
+                  value: this.widget.value,
+                  hint: this.widget.hint,
+                  style: const TextStyle(color: Colors.white),
+                  underline: Container(
+                    height: 0,
+                    color: Colors.deepPurpleAccent,
+                  ),
+                  onChanged: this.widget.onChanged,
+                  items: this.widget.items,
+                )),
             width: double.infinity,
+            height: 60,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [darkColor, lightColor],
@@ -56,6 +55,8 @@ class _CustomDropdownStringState extends State<CustomDropdownString> {
             ),
             alignment: Alignment.center,
           )
-        ]);
+        ],
+      ),
+    );
   }
 }
