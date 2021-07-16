@@ -1,30 +1,38 @@
 import 'dart:convert';
-
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../models/WebRadios.dart';
+import 'package:raspbian_radio_app/utils/Preferences.dart';
+import 'package:raspbian_radio_app/models/WebRadios.dart';
 import 'package:http/http.dart' as http;
 
 String? ip;
 String? port;
+String? httpPrefix = "http://";
 
-void refreshPreferences() async {
-  var preferences = await SharedPreferences.getInstance();
-  ip = "http://" + (preferences.getString('ip') ?? "192.168.1.50");
-  port = (preferences.getString('port') ?? "5000");
+void refreshPreferences() {
+  ip = SharedPreferencesHelper.getIp() as String?;
+  port = SharedPreferencesHelper.getPort() as String?;
+  print(ip);
+  print(port);
 }
 
-Uri getAllStationPath = Uri.parse(ip! + ':' + port! + '/api/getAllStation/');
-Uri getStatusPath = Uri.parse(ip! + ':' + port! + '/api/getStatus/');
-Uri getVolumePath = Uri.parse(ip! + ':' + port! + '/api/getVolume/');
-Uri setVolumePath = Uri.parse(ip! + ':' + port! + '/api/setVolume/');
-Uri playRadioPath = Uri.parse(ip! + ':' + port! + '/api/playRadio/');
-Uri stopRadioPath = Uri.parse(ip! + ':' + port! + '/api/stopRadio/');
+Uri getAllStationPath =
+    Uri.parse(httpPrefix! + ip! + ':' + port! + '/api/getAllStation/');
+Uri getStatusPath =
+    Uri.parse(httpPrefix! + ip! + ':' + port! + '/api/getStatus/');
+Uri getVolumePath =
+    Uri.parse(httpPrefix! + ip! + ':' + port! + '/api/getVolume/');
+Uri setVolumePath =
+    Uri.parse(httpPrefix! + ip! + ':' + port! + '/api/setVolume/');
+Uri playRadioPath =
+    Uri.parse(httpPrefix! + ip! + ':' + port! + '/api/playRadio/');
+Uri stopRadioPath =
+    Uri.parse(httpPrefix! + ip! + ':' + port! + '/api/stopRadio/');
 Uri getPlayingStationPath =
-    Uri.parse(ip! + ':' + port! + '/api/getPlayingStation/');
+    Uri.parse(httpPrefix! + ip! + ':' + port! + '/api/getPlayingStation/');
 
 Future<List<WebRadio>> getRadios() async {
   refreshPreferences();
+  var test = httpPrefix! + ip! + ':' + port! + '/api/getAllStation/';
+  print(test);
   final response = await http.get(getAllStationPath);
 
   if (response.statusCode == 200) {

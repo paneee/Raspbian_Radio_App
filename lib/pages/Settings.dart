@@ -37,12 +37,10 @@ class _PageSettingsState extends State<PageSettings> {
 
   void initPreferences() async {
     preferences = await SharedPreferences.getInstance();
-    setState(() {
-      _ip = (preferences.getString('ip') ?? "192.168.1.50");
-      _port = (preferences.getString('port') ?? "5000");
-      controllerIp.text = _ip;
-      controllerPort.text = _port;
-    });
+    _ip = (preferences.getString('ip') ?? "192.168.1.50");
+    _port = (preferences.getString('port') ?? "5000");
+    controllerIp.text = _ip;
+    controllerPort.text = _port;
   }
 
   @override

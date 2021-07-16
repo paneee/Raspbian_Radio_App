@@ -122,7 +122,7 @@ class _PageRadioState extends State<PageRadio> {
                 )),
             Container(
                 margin: EdgeInsets.only(right: 30.0, left: 30.0),
-                child: Column(
+                child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
