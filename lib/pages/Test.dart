@@ -1,78 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-// Define a custom Form widget.
-class MyCustomForm extends StatefulWidget {
-  MyCustomForm();
+void main() => runApp(MyApp());
 
+class MyApp extends StatelessWidget {
+  // This widget is the root of the application.
   @override
-  _MyCustomFormState createState() => _MyCustomFormState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Shared preferences demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(title: 'Shared preferences demo'),
+    );
+  }
 }
 
-// Define a corresponding State class.
-// This class holds the data related to the Form.
-class _MyCustomFormState extends State<MyCustomForm> {
-  // Create a text controller and use it to retrieve the current value
-  // of the TextField.
-  final myController = TextEditingController();
-  final textController = TextEditingController();
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key? key, required this.title}) : super(key: key);
+  final String title;
 
   @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myController.dispose();
-    super.dispose();
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCounter();
+  }
+
+  //Loading counter value on start
+  void _loadCounter() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _counter = (prefs.getInt('counter') ?? 0);
+    });
+  }
+
+  //Incrementing counter after click
+  void _incrementCounter() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _counter = (prefs.getInt('counter') ?? 0) + 1;
+      prefs.setInt('counter', _counter);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      Container(
-        padding: EdgeInsets.all(10.0),
-        child: TextFormField(
-          controller: textController,
-          //initialValue: this.widget.initialValue,
-          decoration: InputDecoration(
-              errorStyle: TextStyle(fontSize: 10.0),
-              //labelText: this.widget.labelText,
-              filled: true,
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
-                borderSide: BorderSide(
-                  color: Colors.grey,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                  borderSide: BorderSide(
-                    color: Colors.blue,
-                  )),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                  borderSide: BorderSide(color: Colors.black, width: 1.0))),
-          style: TextStyle(color: Colors.black),
-          //validator: this.widget.validator),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+          ],
         ),
-        // TextField(
-        //   controller: textController,
-        // ),
-        // FloatingActionButton(
-        //   // When the user presses the button, show an alert dialog containing
-        //   // the text that the user has entered into the text field.
-        //   onPressed: () {
-        //     showDialog(
-        //       context: context,
-        //       builder: (context) {
-        //         return AlertDialog(
-        //           // Retrieve the text the that user has entered by using the
-        //           // TextEditingController.
-        //           content: Text(myController.text),
-        //         );
-        //       },
-        //     );
-        //   },
-        // ),
-      )
-    ]);
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
   }
 }
