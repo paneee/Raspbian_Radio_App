@@ -23,7 +23,7 @@ class CustomButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(25)),
           child: Container(
             padding:
-                EdgeInsets.only(top: 18.0, bottom: 18.0, left: 20, right: 20),
+                EdgeInsets.only(top: 18.0, bottom: 18.0, left: 10, right: 10),
             margin: EdgeInsets.only(left: 30, right: 30),
             alignment: Alignment.center,
             child: Text(
