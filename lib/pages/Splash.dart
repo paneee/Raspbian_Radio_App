@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:raspbian_radio_app/models/Settings.dart';
+import 'package:raspbian_radio_app/pages/Settings.dart';
+import 'package:raspbian_radio_app/utils/Preferences.dart';
 import 'package:raspbian_radio_app/utils/Syle.dart';
 import 'package:raspbian_radio_app/pages/Radio.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,8 +16,9 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+
     Timer(const Duration(milliseconds: 500), () {
-      Navigator.push(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => PageRadio()));
     });
   }
@@ -22,21 +26,31 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [darkColor, lightColor],
-              end: Alignment.bottomCenter,
-              begin: Alignment.topCenter),
-        ),
-        child: Center(
-          child: FaIcon(
-            FontAwesomeIcons.podcast,
-            color: Colors.white,
-            size: 340,
-          ),
-        ),
-      ),
-    );
+        body: FutureBuilder<Settings>(
+            future: SharedPreferencesHelper.getSettings(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                ip = snapshot.data!.ip;
+                port = snapshot.data!.port;
+                selectedTheme = snapshot.data!.color;
+
+                selectColor(selectedTheme!);
+              }
+              return Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [darkColor, lightColor],
+                      end: Alignment.bottomCenter,
+                      begin: Alignment.topCenter),
+                ),
+                child: Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.podcast,
+                    color: Colors.white,
+                    size: 340,
+                  ),
+                ),
+              );
+            }));
   }
 }

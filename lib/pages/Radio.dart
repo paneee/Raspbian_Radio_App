@@ -4,6 +4,7 @@ import 'package:raspbian_radio_app/api/api.dart';
 import 'package:raspbian_radio_app/models/Settings.dart';
 import 'package:raspbian_radio_app/models/WebRadios.dart';
 import 'package:raspbian_radio_app/utils/Preferences.dart';
+import 'package:raspbian_radio_app/utils/Syle.dart';
 import 'package:raspbian_radio_app/widgets/Button.dart';
 import 'package:raspbian_radio_app/widgets/DropdownWebRadio.dart';
 import 'package:raspbian_radio_app/widgets/Herder.dart';
@@ -27,6 +28,7 @@ Future<List<WebRadio>>? futureRadioList;
 Future<Settings>? futureSettings;
 String? ip;
 String? port;
+String? color;
 
 class _PageRadioState extends State<PageRadio> {
   @override
@@ -48,6 +50,8 @@ class _PageRadioState extends State<PageRadio> {
               if (snapshot.hasData) {
                 ip = snapshot.data!.ip;
                 port = snapshot.data!.port;
+                color = snapshot.data!.color;
+                selectColor(color!);
               }
               return Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,7 +63,7 @@ class _PageRadioState extends State<PageRadio> {
                               icon: FaIcon(FontAwesomeIcons.cogs,
                                   color: Colors.white, size: 32),
                               onPressed: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => PageSettings()),
@@ -127,7 +131,6 @@ class _PageRadioState extends State<PageRadio> {
                           ))
                     ]),
                     Column(children: [
-                      Text(ip.toString()),
                       Container(
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(right: 50, bottom: 10),

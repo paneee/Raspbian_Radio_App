@@ -6,7 +6,8 @@ class SharedPreferencesHelper {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     Settings settings = new Settings(
         ip: preferences.getString('ip') ?? '192.168.1.50',
-        port: preferences.getString('port') ?? '5000');
+        port: preferences.getString('port') ?? '5000',
+        color: preferences.getString('color') ?? 'Blue');
     return settings;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:raspbian_radio_app/models/Settings.dart';
 import 'package:raspbian_radio_app/pages/Radio.dart';
 import 'package:raspbian_radio_app/utils/Preferences.dart';
+import 'package:raspbian_radio_app/utils/Syle.dart';
 import 'package:raspbian_radio_app/widgets/DropdownString.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raspbian_radio_app/widgets/TextInput.dart';
@@ -16,13 +17,13 @@ class PageSettings extends StatefulWidget {
   _PageSettingsState createState() => _PageSettingsState();
 }
 
-String? _selectedTheme;
+String? selectedTheme;
 
-var _itemTheme;
+var itemTheme;
 var preferences;
 
 class _PageSettingsState extends State<PageSettings> {
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   var controllerIp = TextEditingController();
   var controllerPort = TextEditingController();
@@ -30,15 +31,19 @@ class _PageSettingsState extends State<PageSettings> {
   @override
   void initState() {
     super.initState();
+    savePreferences(new Settings(
+        ip: controllerIp.text,
+        port: controllerPort.text,
+        color: selectedTheme));
 
-    _itemTheme = ['Red', 'Blue', 'Green', 'Orange'];
-    _selectedTheme = 'Red';
+    itemTheme = ['Red', 'Blue', 'Green', 'Orange'];
   }
 
   void savePreferences(Settings settigs) async {
     preferences = await SharedPreferences.getInstance();
     preferences.setString(settigs.ip, 'ip');
     preferences.setString(settigs.port, 'port');
+    preferences.setString(settigs.color, 'color');
   }
 
   @override
@@ -50,6 +55,9 @@ class _PageSettingsState extends State<PageSettings> {
               if (snapshot.hasData) {
                 ip = snapshot.data!.ip;
                 port = snapshot.data!.port;
+                selectedTheme = snapshot.data!.color;
+
+                selectColor(selectedTheme!);
                 controllerIp.text = ip!;
                 controllerPort.text = port!;
               }
@@ -63,7 +71,7 @@ class _PageSettingsState extends State<PageSettings> {
                             icon: FaIcon(FontAwesomeIcons.arrowCircleLeft,
                                 color: Colors.white, size: 32),
                             onPressed: () {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => PageRadio()),
@@ -71,7 +79,7 @@ class _PageSettingsState extends State<PageSettings> {
                             },
                           ))),
                   Form(
-                    key: _formKey,
+                    key: formKey,
                     child: Column(children: [
                       Container(
                           alignment: Alignment.centerRight,
@@ -129,11 +137,14 @@ class _PageSettingsState extends State<PageSettings> {
                         left: 30,
                       ),
                       child: CustomDropdownString(
-                        value: _selectedTheme,
-                        onChanged: (newValue) {
-                          _selectedTheme = newValue;
+                        value: selectedTheme,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedTheme = value;
+                            preferences.setString("color", value);
+                          });
                         },
-                        items: _itemTheme
+                        items: itemTheme
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -164,11 +175,17 @@ class _PageSettingsState extends State<PageSettings> {
                           setState(() {
                             savePreferences(new Settings(
                                 ip: controllerIp.text,
-                                port: controllerPort.text));
+                                port: controllerPort.text,
+                                color: selectedTheme));
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PageSettings()),
+                            );
                           });
-                          if (_formKey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                backgroundColor: Colors.red[500],
+                                backgroundColor: lightColor,
                                 content: Text(
                                   'Settings saved',
                                   textAlign: TextAlign.center,

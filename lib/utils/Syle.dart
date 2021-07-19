@@ -17,6 +17,27 @@ Color greenLightColors = Color(0xff00cc44);
 Color darkColor = Color(0xff1976D2);
 Color lightColor = Color(0xff42A5F5);
 
+void selectColor(String color) {
+  switch (color) {
+    case 'Red':
+      darkColor = redColors;
+      lightColor = redLightColors;
+      break;
+    case 'Blue':
+      darkColor = blueColors;
+      lightColor = blueLightColors;
+      break;
+    case 'Green':
+      darkColor = greenColors;
+      lightColor = greenLightColors;
+      break;
+    case 'Orange':
+      darkColor = orangeColors;
+      lightColor = orangeLightColors;
+      break;
+  }
+}
+
 class StyledContainer extends StatelessWidget {
   final Widget? child;
   final Color? color;
