@@ -6,13 +6,12 @@ class Settings {
   String? port;
 
   Settings({
-    required this.id,
     required this.ip,
     required this.port,
   });
 
   factory Settings.fromJson(Map<String, dynamic> json) {
-    return Settings(id: json["id"], ip: json['ip'], port: json['port']);
+    return Settings(ip: json['ip'], port: json['port']);
   }
 
   Map<String, dynamic> toMap() {

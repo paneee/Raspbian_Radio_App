@@ -1,3 +1,6 @@
+import 'package:raspbian_radio_app/models/Settings.dart';
+import 'package:raspbian_radio_app/pages/Radio.dart';
+import 'package:raspbian_radio_app/utils/Preferences.dart';
 import 'package:raspbian_radio_app/widgets/DropdownString.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raspbian_radio_app/widgets/TextInput.dart';
@@ -20,8 +23,7 @@ var preferences;
 
 class _PageSettingsState extends State<PageSettings> {
   final _formKey = GlobalKey<FormState>();
-  String _ip = "";
-  String _port = "";
+
   var controllerIp = TextEditingController();
   var controllerPort = TextEditingController();
 
@@ -31,141 +33,165 @@ class _PageSettingsState extends State<PageSettings> {
 
     _itemTheme = ['Red', 'Blue', 'Green', 'Orange'];
     _selectedTheme = 'Red';
-
-    initPreferences();
   }
 
   void initPreferences() async {
+    //preferences = await SharedPreferences.getInstance();
+    //_ip = (preferences.getString('ip') ?? "192.168.1.50");
+    //_port = (preferences.getString('port') ?? "5000");
+    //controllerIp.text = _ip;
+    //controllerPort.text = _port;
+  }
+
+  void savePreferences(Settings settigs) async {
     preferences = await SharedPreferences.getInstance();
-    _ip = (preferences.getString('ip') ?? "192.168.1.50");
-    _port = (preferences.getString('port') ?? "5000");
-    controllerIp.text = _ip;
-    controllerPort.text = _port;
+    preferences.setString(settigs.ip, 'ip');
+    preferences.setString(settigs.port, 'port');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Container(
-            child: CustomHeaderContainer(
-                text: "Raspbian Web Radio",
-                item: IconButton(
-                  icon: FaIcon(FontAwesomeIcons.arrowCircleLeft,
-                      color: Colors.white, size: 32),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ))),
-        Form(
-          key: _formKey,
-          child: Column(children: [
-            Container(
-                alignment: Alignment.centerRight,
-                margin: EdgeInsets.only(top: 20, right: 50, bottom: 10),
-                child: Text(
-                  "Network setting",
-                  textAlign: TextAlign.right,
-                )),
-            Container(
-                margin: EdgeInsets.only(right: 30, left: 30),
-                child: CustomTextInput(
-                  controller: controllerIp,
-                  labelText: "IP Address",
-                  validator: (value) {
-                    if (!Fzregex.hasMatch(value!, FzPattern.ipv4)) {
-                      return "Enter correct IP Address";
-                    } else {
-                      _ip = value;
-                      preferences.setString("ip", value);
-                      controllerIp.text = _ip;
-                      return null;
-                    }
-                  },
-                )),
-            Container(
-                margin: EdgeInsets.only(right: 30, left: 30),
-                child: CustomTextInput(
-                  controller: controllerPort,
-                  labelText: "Port number",
-                  validator: (value) {
-                    int temp = int.tryParse(value) ?? -1;
-                    if ((temp < 1) || (temp > 65535)) {
-                      return "Enter correct port number";
-                    } else {
-                      _port = value.toString();
-                      preferences.setString("port", value.toString());
-                      controllerPort.text = _port;
-                      return null;
-                    }
-                  },
-                ))
-          ]),
-        ),
-        Column(children: [
-          Container(
-              alignment: Alignment.centerRight,
-              margin: EdgeInsets.only(right: 50, bottom: 10),
-              child: Text(
-                "Theme select",
-              )),
-          Container(
-            margin: EdgeInsets.only(
-              right: 30,
-              left: 30,
-            ),
-            child: CustomDropdownString(
-              value: _selectedTheme,
-              onChanged: (newValue) {
-                _selectedTheme = newValue;
-              },
-              items: _itemTheme.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
+        body: FutureBuilder<Settings>(
+            future: SharedPreferencesHelper.getSettings(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                ip = snapshot.data!.ip;
+                port = snapshot.data!.port;
+                controllerIp.text = ip!;
+                controllerPort.text = port!;
+              }
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                      child: CustomHeaderContainer(
+                          text: "Raspbian Web Radio",
+                          item: IconButton(
+                            icon: FaIcon(FontAwesomeIcons.arrowCircleLeft,
+                                color: Colors.white, size: 32),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PageRadio()),
+                              );
+                            },
+                          ))),
+                  Form(
+                    key: _formKey,
+                    child: Column(children: [
+                      Container(
+                          alignment: Alignment.centerRight,
+                          margin:
+                              EdgeInsets.only(top: 20, right: 50, bottom: 10),
+                          child: Text(
+                            "Network setting",
+                            textAlign: TextAlign.right,
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(right: 30, left: 30),
+                          child: CustomTextInput(
+                            controller: controllerIp,
+                            labelText: "IP Address",
+                            validator: (value) {
+                              if (!Fzregex.hasMatch(value!, FzPattern.ipv4)) {
+                                return "Enter correct IP Address";
+                              } else {
+                                ip = value;
+                                preferences.setString("ip", value);
+                                controllerIp.text = ip!;
+                                return null;
+                              }
+                            },
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(right: 30, left: 30),
+                          child: CustomTextInput(
+                            controller: controllerPort,
+                            labelText: "Port number",
+                            validator: (value) {
+                              int temp = int.tryParse(value) ?? -1;
+                              if ((temp < 1) || (temp > 65535)) {
+                                return "Enter correct port number";
+                              } else {
+                                port = value.toString();
+                                preferences.setString("port", value.toString());
+                                controllerPort.text = port!;
+                                return null;
+                              }
+                            },
+                          ))
+                    ]),
                   ),
-                );
-              }).toList(),
-            ),
-          )
-        ]),
-        Column(children: [
-          Container(
-              alignment: Alignment.centerRight,
-              margin: EdgeInsets.only(right: 50, bottom: 10),
-              child: Text(
-                "Save settings",
-              )),
-          Container(
-            margin: EdgeInsets.only(right: 30, left: 30, bottom: 50),
-            child: CustomButton(
-              btnText: "Save",
-              onClick: () {
-                setState(() {});
-                if (_formKey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      backgroundColor: Colors.red[500],
-                      content: Text(
-                        'Settings saved',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      )));
-                }
-              },
-            ),
-          )
-        ]),
-      ],
-    ));
+                  Column(children: [
+                    Container(
+                        alignment: Alignment.centerRight,
+                        margin: EdgeInsets.only(right: 50, bottom: 10),
+                        child: Text(
+                          "Theme select",
+                        )),
+                    Container(
+                      margin: EdgeInsets.only(
+                        right: 30,
+                        left: 30,
+                      ),
+                      child: CustomDropdownString(
+                        value: _selectedTheme,
+                        onChanged: (newValue) {
+                          _selectedTheme = newValue;
+                        },
+                        items: _itemTheme
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    )
+                  ]),
+                  Column(children: [
+                    Container(
+                        alignment: Alignment.centerRight,
+                        margin: EdgeInsets.only(right: 50, bottom: 10),
+                        child: Text(
+                          "Save settings",
+                        )),
+                    Container(
+                      margin: EdgeInsets.only(right: 30, left: 30, bottom: 50),
+                      child: CustomButton(
+                        btnText: "Save",
+                        onClick: () {
+                          setState(() {
+                            savePreferences(new Settings(
+                                ip: controllerIp.text,
+                                port: controllerPort.text));
+                          });
+                          if (_formKey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                backgroundColor: Colors.red[500],
+                                content: Text(
+                                  'Settings saved',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                )));
+                          }
+                        },
+                      ),
+                    )
+                  ]),
+                ],
+              );
+            }));
   }
 }
