@@ -26,7 +26,7 @@ class CustomHeaderContainer extends StatelessWidget {
         children: <Widget>[
           Positioned(
             child: item,
-            top: 20,
+            top: 40,
             left: 20,
           ),
           Positioned(
