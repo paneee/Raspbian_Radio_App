@@ -6,7 +6,7 @@ raspbian_radio_app is a a Flutter for android or ios phone application
 KOLOR 1 strona
 ![Screenshot_20210719_224246_com example raspbian_radio_app](https://user-images.githubusercontent.com/27755739/126339001-3e0a9edd-0cbd-40cf-909a-e9a195927382.jpg)
 
-
+<img src="https://user-images.githubusercontent.com/27755739/126339001-3e0a9edd-0cbd-40cf-909a-e9a195927382.jpg" width="100" height="100">
 Kolor 2 strona
 
 
