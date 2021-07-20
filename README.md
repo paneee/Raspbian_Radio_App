@@ -14,7 +14,7 @@ raspbian_radio_app is a a Flutter for android or ios phone application
 
 * ### Page 2 - settings:
   * #### Network settings of the api server - ([RaspbianWebRadio](https://github.com/paneee/RaspbianWebRadio))
-  * #### Application theme. The application has 4 color themes (red, blue, orange, green)
+  * #### Application theme. The application has 4 color themes (blue, orange, red, green)
 
 <img src="https://user-images.githubusercontent.com/27755739/126345610-b7ed709a-95b2-4b77-b9b1-350e494f2e6b.jpg" width="23%" height="23%"> <img src="https://user-images.githubusercontent.com/27755739/126345614-a614c90a-8a21-4dc4-9ed6-fdf6e6f639ca.jpg" width="23%" height="23%"> <img src="https://user-images.githubusercontent.com/27755739/126345603-4467a772-7457-4c27-bb9c-02eedc0c87eb.jpg" width="23%" height="23%"> <img src="https://user-images.githubusercontent.com/27755739/126345611-42b758f7-36c8-427f-96a2-51174183adde.jpg" width="23%" height="23%"> 
 
