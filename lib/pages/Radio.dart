@@ -70,6 +70,54 @@ class _PageRadioState extends State<PageRadio> {
                                 );
                               },
                             ))),
+                    Column(
+                      children: [
+                        Container(
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.only(right: 50, bottom: 10),
+                            child: Text(
+                              "Speaker",
+                              textAlign: TextAlign.right,
+                            )),
+                        Container(
+                            margin: EdgeInsets.only(right: 30.0, left: 30.0),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    child: CustomButton(
+                                      onClick: () {
+                                        setState(() {
+                                          speakerVolumeOnOff(ip!, port!);
+                                        });
+                                      },
+                                      btnText: "On Off",
+                                    ),
+                                  ),
+                                  Container(
+                                    child: CustomButton(
+                                      onClick: () {
+                                        setState(() {
+                                          speakerVolumeDOWN(ip!, port!);
+                                        });
+                                      },
+                                      btnText: "Vol -",
+                                    ),
+                                  ),
+                                  Container(
+                                    child: CustomButton(
+                                      onClick: () {
+                                        setState(() {
+                                          speakerVolumeUP(ip!, port!);
+                                        });
+                                      },
+                                      btnText: "Vol +",
+                                    ),
+                                  ),
+                                ]))
+                      ],
+                    ),
                     Column(children: [
                       Container(
                           alignment: Alignment.centerRight,
@@ -151,7 +199,7 @@ class _PageRadioState extends State<PageRadio> {
                                             webRadioSelectedItem!, ip!, port!);
                                       });
                                     },
-                                    btnText: "Play",
+                                    btnText: "   Play   ",
                                   ),
                                 ),
                                 Container(
@@ -162,7 +210,7 @@ class _PageRadioState extends State<PageRadio> {
                                         stopRadio(ip!, port!);
                                       });
                                     },
-                                    btnText: "Stop",
+                                    btnText: "   Stop   ",
                                   ),
                                 ),
                               ]))

@@ -74,3 +74,39 @@ Future<http.Response> stopRadio(String ip, String port) {
     },
   );
 }
+
+Future<http.Response> speakerVolumeUP(String ip, String port) {
+  Uri speakerVolumeUPPath =
+      Uri.parse(httpPrefix + ip + ':' + port + '/api/speakerVolumeUP/');
+
+  return http.post(
+    speakerVolumeUPPath,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+}
+
+Future<http.Response> speakerVolumeDOWN(String ip, String port) {
+  Uri speakerVolumeUPPath =
+      Uri.parse(httpPrefix + ip + ':' + port + '/api/speakerVolumeDOWN/');
+
+  return http.post(
+    speakerVolumeUPPath,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+}
+
+Future<http.Response> speakerVolumeOnOff(String ip, String port) {
+  Uri speakerVolumeUPPath =
+      Uri.parse(httpPrefix + ip + ':' + port + '/api/speakerOnOff/');
+
+  return http.post(
+    speakerVolumeUPPath,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+}
