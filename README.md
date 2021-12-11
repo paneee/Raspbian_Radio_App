@@ -6,11 +6,12 @@ raspbian_radio_app is a a Flutter for android or ios phone application
 
 ## Two pagess manage the application
 * ### Page 1 - radio management:
+  * #### Change speaker volume
   * #### Radio selection
   * #### Switching the radio play and stop
   * #### Change radio volume
 
-<img src="https://user-images.githubusercontent.com/27755739/126339001-3e0a9edd-0cbd-40cf-909a-e9a195927382.jpg" width="23%" height="23%"> <img src="https://user-images.githubusercontent.com/27755739/126339879-62a5e4af-dcc2-4faa-b439-6ffee18991b5.jpg" width="23%" height="23%"> <img src="https://user-images.githubusercontent.com/27755739/126339884-3f083ace-e94d-4618-a65a-dd958f49001e.jpg" width="23%" height="23%"> <img src="https://user-images.githubusercontent.com/27755739/126339887-768ce190-df3f-4660-843b-83118c9baaf2.jpg" width="23%" height="23%">
+<img src="https://user-images.githubusercontent.com/27755739/134511786-d14271ef-49aa-40a4-bbe6-eb312ac7db64.jpg" width="23%" height="23%"> <img src="https://user-images.githubusercontent.com/27755739/134511806-34ba8eb8-4afc-481b-a9ff-b89daaf340b4.jpg" width="23%" height="23%"> <img src="https://user-images.githubusercontent.com/27755739/134511810-162cd1e0-84d7-4fdf-a8cc-e1751d01e29d.jpg" width="23%" height="23%"> <img src="https://user-images.githubusercontent.com/27755739/134511819-eb2c61b0-aaf8-41d6-b072-422ac5b6ed75.jpg" width="23%" height="23%">
 
 * ### Page 2 - settings:
   * #### Network settings of the api server - ([RaspbianWebRadio](https://github.com/paneee/RaspbianWebRadio))
