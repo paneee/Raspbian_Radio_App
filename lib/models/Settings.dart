@@ -2,17 +2,18 @@ import 'dart:convert';
 
 class Settings {
   String? ip;
-  String? port;
+  String? radioPort;
+  String? speakerPort;
   String? color;
 
-  Settings({required this.ip, required this.port, required this.color});
+  Settings({required this.ip, required this.radioPort, required this.speakerPort, required this.color});
 
   factory Settings.fromJson(Map<String, dynamic> json) {
-    return Settings(ip: json['ip'], port: json['port'], color: json['color']);
+    return Settings(ip: json['ip'], radioPort: json['radioPort'], speakerPort: json['speakerPort'],color: json['color']);
   }
 
   Map<String, dynamic> toMap() {
-    return {'ip': ip, 'port': port, 'color': color};
+    return {'ip': ip, 'radioPort': radioPort, 'speakerPort': speakerPort,'color': color};
   }
 }
 

@@ -99,9 +99,33 @@ Future<http.Response> speakerVolumeDOWN(String ip, String port) {
   );
 }
 
-Future<http.Response> speakerVolumeOnOff(String ip, String port) {
+Future<http.Response> speakerToggle(String ip, String port) {
   Uri speakerVolumeUPPath =
       Uri.parse(httpPrefix + ip + ':' + port + '/api/speaker/toggle/');
+
+  return http.post(
+    speakerVolumeUPPath,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+}
+
+Future<http.Response> speakerBtConnect(String ip, String port) {
+  Uri speakerVolumeUPPath =
+      Uri.parse(httpPrefix + ip + ':' + port + '/api/speaker/btConnect/');
+
+  return http.post(
+    speakerVolumeUPPath,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+}
+
+Future<http.Response> speakerBtDisconnect(String ip, String port) {
+  Uri speakerVolumeUPPath =
+      Uri.parse(httpPrefix + ip + ':' + port + '/api/speaker/btDisconnect/');
 
   return http.post(
     speakerVolumeUPPath,

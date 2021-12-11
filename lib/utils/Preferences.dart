@@ -5,8 +5,9 @@ class SharedPreferencesHelper {
   static Future<Settings> getSettings() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     Settings settings = new Settings(
-        ip: preferences.getString('ip') ?? '192.168.1.50',
-        port: preferences.getString('port') ?? '5000',
+        ip: preferences.getString('ip') ?? '10.147.17.2',
+        radioPort: preferences.getString('radioPort') ?? '5001',
+        speakerPort: preferences.getString('speakerPort') ?? '5002',
         color: preferences.getString('color') ?? 'Blue');
     return settings;
   }

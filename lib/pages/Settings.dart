@@ -26,14 +26,16 @@ class _PageSettingsState extends State<PageSettings> {
   final formKey = GlobalKey<FormState>();
 
   var controllerIp = TextEditingController();
-  var controllerPort = TextEditingController();
+  var controllerRadioPort = TextEditingController();
+  var controllerSpeakerPort = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     savePreferences(new Settings(
         ip: controllerIp.text,
-        port: controllerPort.text,
+        radioPort: controllerRadioPort.text,
+        speakerPort: controllerSpeakerPort.text,
         color: selectedTheme));
 
     itemTheme = ['Red', 'Blue', 'Green', 'Orange'];
@@ -42,7 +44,8 @@ class _PageSettingsState extends State<PageSettings> {
   void savePreferences(Settings settigs) async {
     preferences = await SharedPreferences.getInstance();
     preferences.setString(settigs.ip, 'ip');
-    preferences.setString(settigs.port, 'port');
+    preferences.setString(settigs.radioPort, 'radioPort');
+    preferences.setString(settigs.speakerPort, 'speakerPort');
     preferences.setString(settigs.color, 'color');
   }
 
@@ -54,12 +57,14 @@ class _PageSettingsState extends State<PageSettings> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 ip = snapshot.data!.ip;
-                port = snapshot.data!.port;
+                radioPort = snapshot.data!.radioPort;
+                speakerPort = snapshot.data!.speakerPort;
                 selectedTheme = snapshot.data!.color;
 
                 selectColor(selectedTheme!);
                 controllerIp.text = ip!;
-                controllerPort.text = port!;
+                controllerRadioPort.text = radioPort!;
+                controllerSpeakerPort.text = speakerPort!;
               }
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,51 +84,125 @@ class _PageSettingsState extends State<PageSettings> {
                             },
                           ))),
                   Form(
-                    key: formKey,
-                    child: Column(children: [
-                      Container(
-                          alignment: Alignment.centerRight,
-                          margin:
-                              EdgeInsets.only(top: 20, right: 50, bottom: 10),
-                          child: Text(
-                            "Network setting",
-                            textAlign: TextAlign.right,
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(right: 30, left: 30),
-                          child: CustomTextInput(
-                            controller: controllerIp,
-                            labelText: "IP Address",
-                            validator: (value) {
-                              if (!Fzregex.hasMatch(value!, FzPattern.ipv4)) {
-                                return "Enter correct IP Address";
-                              } else {
-                                ip = value;
-                                preferences.setString("ip", value);
-                                controllerIp.text = ip!;
-                                return null;
-                              }
-                            },
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(right: 30, left: 30),
-                          child: CustomTextInput(
-                            controller: controllerPort,
-                            labelText: "Port number",
-                            validator: (value) {
-                              int temp = int.tryParse(value) ?? -1;
-                              if ((temp < 1) || (temp > 65535)) {
-                                return "Enter correct port number";
-                              } else {
-                                port = value.toString();
-                                preferences.setString("port", value.toString());
-                                controllerPort.text = port!;
-                                return null;
-                              }
-                            },
-                          ))
-                    ]),
-                  ),
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          Container(
+                              alignment: Alignment.centerRight,
+                              margin: EdgeInsets.only(
+                                  top: 20, right: 50, bottom: 10),
+                              child: Text(
+                                "Network setting",
+                                textAlign: TextAlign.right,
+                              )),
+                          Container(
+                              margin: EdgeInsets.only(right: 30, left: 30),
+                              child: CustomTextInput(
+                                controller: controllerIp,
+                                labelText: "IP Address",
+                                validator: (value) {
+                                  if (!Fzregex.hasMatch(
+                                      value!, FzPattern.ipv4)) {
+                                    return "Enter correct IP Address";
+                                  } else {
+                                    ip = value;
+                                    preferences.setString("ip", value);
+                                    controllerIp.text = ip!;
+                                    return null;
+                                  }
+                                },
+                              )),
+                          Column(
+                            children: [
+                             
+                              Row(children: [
+                                Flexible(
+                                  child: Container(
+                                      margin:
+                                          EdgeInsets.only(right: 30, left: 30),
+                                      child: CustomTextInput(
+                                        controller: controllerRadioPort,
+                                        labelText: "Radio port number",
+                                        validator: (value) {
+                                          int temp = int.tryParse(value) ?? -1;
+                                          if ((temp < 1) || (temp > 65535)) {
+                                            return "Enter correct port number";
+                                          } else {
+                                            radioPort = value.toString();
+                                            preferences.setString(
+                                                "radioPort", value.toString());
+                                            controllerRadioPort.text =
+                                                radioPort!;
+                                            return null;
+                                          }
+                                        },
+                                      )),
+                                ),
+                                Flexible(
+                                  child: Container(
+                                      margin:
+                                          EdgeInsets.only(right: 30, left: 30),
+                                      child: CustomTextInput(
+                                        controller: controllerSpeakerPort,
+                                        labelText: "Speaker port number",
+                                        validator: (value) {
+                                          int temp = int.tryParse(value) ?? -1;
+                                          if ((temp < 1) || (temp > 65535)) {
+                                            return "Enter correct port number";
+                                          } else {
+                                            speakerPort = value.toString();
+                                            preferences.setString(
+                                                "speakerPort", value.toString());
+                                            controllerSpeakerPort.text =
+                                                radioPort!;
+                                            return null;
+                                          }
+                                        },
+                                      )),
+                                )
+                              ])
+                            ],
+                          ),
+
+                          // Container(
+                          //     margin: EdgeInsets.only(right: 30, left: 30),
+                          //     child: CustomTextInput(
+                          //       controller: controllerRadioPort,
+                          //       labelText: "Radio port number",
+                          //       validator: (value) {
+                          //         int temp = int.tryParse(value) ?? -1;
+                          //         if ((temp < 1) || (temp > 65535)) {
+                          //           return "Enter correct port number";
+                          //         } else {
+                          //           radioPort = value.toString();
+                          //           preferences.setString(
+                          //               "radioPort", value.toString());
+                          //           controllerRadioPort.text = radioPort!;
+                          //           return null;
+                          //         }
+                          //       },
+                          //     )),
+                          // Container(
+                          //     margin: EdgeInsets.only(right: 30, left: 30),
+                          //     child: CustomTextInput(
+                          //       controller: controllerSpeakerPort,
+                          //       labelText: "Speaker port number",
+                          //       validator: (value) {
+                          //         int temp = int.tryParse(value) ?? -1;
+                          //         if ((temp < 1) || (temp > 65535)) {
+                          //           return "Enter correct port number";
+                          //         } else {
+                          //           speakerPort = value.toString();
+                          //           preferences.setString(
+                          //               "speakerPort", value.toString());
+                          //           controllerSpeakerPort.text =
+                          //               speakerPort!;
+                          //           return null;
+                          //         }
+                          //       },
+                          //     ))
+                        ],
+                      )),
                   Column(children: [
                     Container(
                         alignment: Alignment.centerRight,
@@ -175,7 +254,8 @@ class _PageSettingsState extends State<PageSettings> {
                           setState(() {
                             savePreferences(new Settings(
                                 ip: controllerIp.text,
-                                port: controllerPort.text,
+                                radioPort: controllerRadioPort.text,
+                                speakerPort: controllerSpeakerPort.text,
                                 color: selectedTheme));
                             Navigator.pushReplacement(
                               context,
