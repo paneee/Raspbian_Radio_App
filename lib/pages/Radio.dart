@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raspbian_radio_app/api/Api.dart';
 import 'package:raspbian_radio_app/models/Settings.dart';
+import 'package:raspbian_radio_app/models/Tv.dart';
 import 'package:raspbian_radio_app/models/WebRadios.dart';
 import 'package:raspbian_radio_app/utils/Preferences.dart';
 import 'package:raspbian_radio_app/utils/Syle.dart';
 import 'package:raspbian_radio_app/widgets/Button.dart';
+import 'package:raspbian_radio_app/widgets/DropdownTvCommand.dart';
 import 'package:raspbian_radio_app/widgets/DropdownWebRadio.dart';
 import 'package:raspbian_radio_app/widgets/Herder.dart';
 import 'package:raspbian_radio_app/widgets/Slider.dart';
@@ -17,18 +19,25 @@ class PageRadio extends StatefulWidget {
 }
 
 double? currentVolume;
+
 WebRadio? webRadioSelectedItem;
+TvCommand? tvCommandSelectedItem;
+
 bool? firstLoadSlider;
-bool? firstLoadDropDown;
+bool? firstLoadWebRadioDropDown;
+bool? firstLoadTvCommandDropDown;
 
 Future<double>? futureVolume;
 Future<WebRadio>? futureActualPlaying;
+
 Future<List<WebRadio>>? futureRadioList;
+Future<List<TvCommand>>? fututeCommandList;
 
 Future<Settings>? futureSettings;
 String? ip;
 String? radioPort;
 String? speakerPort;
+String? tvPort = "5003";
 String? color;
 
 class _PageRadioState extends State<PageRadio> {
@@ -39,7 +48,8 @@ class _PageRadioState extends State<PageRadio> {
     currentVolume = 0;
 
     firstLoadSlider = true;
-    firstLoadDropDown = true;
+    firstLoadWebRadioDropDown = true;
+    firstLoadTvCommandDropDown = true;
   }
 
   @override
@@ -169,21 +179,19 @@ class _PageRadioState extends State<PageRadio> {
                           Container(
                               margin: EdgeInsets.only(right: 30.0, left: 30.0),
                               child: FutureBuilder<List<WebRadio>>(
-                                //future: futureRadioList,
                                 future: getRadios(ip!, radioPort!),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     if ((snapshot.connectionState ==
                                             ConnectionState.done) &&
-                                        (firstLoadDropDown == true)) {
+                                        (firstLoadWebRadioDropDown == true)) {
                                       for (WebRadio item in snapshot.data!) {
                                         if (item.isPlaying == true) {
                                           webRadioSelectedItem = item;
                                         }
                                       }
-                                      firstLoadDropDown = false;
+                                      firstLoadWebRadioDropDown = false;
                                     }
-
                                     return CustomDropdownWebRadio(
                                       value: webRadioSelectedItem,
                                       hint: Text(
@@ -306,24 +314,23 @@ class _PageRadioState extends State<PageRadio> {
                               )),
                           Container(
                               margin: EdgeInsets.only(right: 30.0, left: 30.0),
-                              child: FutureBuilder<List<WebRadio>>(
-                                //future: futureRadioList,
-                                future: getRadios(ip!, radioPort!),
+                              child: FutureBuilder<List<TvCommand>>(
+                                future: getTvCommands(ip!, tvPort!),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     if ((snapshot.connectionState ==
                                             ConnectionState.done) &&
-                                        (firstLoadDropDown == true)) {
-                                      for (WebRadio item in snapshot.data!) {
-                                        if (item.isPlaying == true) {
-                                          webRadioSelectedItem = item;
-                                        }
-                                      }
-                                      firstLoadDropDown = false;
+                                        (firstLoadTvCommandDropDown == true)) {
+                                      // for (TvCommand item in snapshot.data!) {
+                                      //   if (item.isPlaying == true) {
+                                      //     webRadioSelectedItem = item;
+                                      //   }
+                                      // }
+                                      firstLoadTvCommandDropDown = false;
                                     }
 
-                                    return CustomDropdownWebRadio(
-                                      value: webRadioSelectedItem,
+                                    return CustomDropdownTvCommand(
+                                      value: tvCommandSelectedItem,
                                       hint: Text(
                                         "Select tv command",
                                         style: TextStyle(
@@ -332,8 +339,8 @@ class _PageRadioState extends State<PageRadio> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       items:
-                                          snapshot.data!.map((WebRadio value) {
-                                        return DropdownMenuItem<WebRadio>(
+                                          snapshot.data!.map((TvCommand value) {
+                                        return DropdownMenuItem<TvCommand>(
                                           value: value,
                                           child: Text(
                                             value.name!,
@@ -344,9 +351,9 @@ class _PageRadioState extends State<PageRadio> {
                                           ),
                                         );
                                       }).toList(),
-                                      onChanged: (webRadio) {
+                                      onChanged: (tvCommand) {
                                         setState(() {
-                                          webRadioSelectedItem = webRadio;
+                                          tvCommandSelectedItem = tvCommand;
                                         });
                                       },
                                     );
@@ -366,8 +373,8 @@ class _PageRadioState extends State<PageRadio> {
                             child: CustomButton(
                               onClick: () {
                                 setState(() {
-                                  playRadio(
-                                      webRadioSelectedItem!, ip!, radioPort!);
+                                  runTvCommand(
+                                      tvCommandSelectedItem!, ip!, tvPort!);
                                 });
                               },
                               btnText: "   Run   ",

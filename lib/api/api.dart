@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:raspbian_radio_app/models/Tv.dart';
 import 'package:raspbian_radio_app/models/WebRadios.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,18 +12,6 @@ Future<List<WebRadio>> getRadios(String ip, String port) async {
 
   if (response.statusCode == 200) {
     return webRadiosFromJson(response.body);
-  } else {
-    throw Exception('Failed to get radios');
-  }
-}
-
-Future<WebRadio> getPlayingStation(String ip, String port) async {
-  Uri getPlayingStationPath =
-      Uri.parse(httpPrefix + ip + ':' + port + '/api/radio/getPlayingStation/');
-  final response = await http.get(getPlayingStationPath);
-
-  if (response.statusCode == 200) {
-    return webRadioFromJson(response.body);
   } else {
     throw Exception('Failed to get radios');
   }
@@ -133,4 +122,29 @@ Future<http.Response> speakerBtDisconnect(String ip, String port) {
       'Content-Type': 'application/json; charset=UTF-8',
     },
   );
+}
+
+Future<List<TvCommand>> getTvCommands(String ip, String port) async {
+  Uri getTvCommands =
+      Uri.parse(httpPrefix + ip + ':' + port + '/api/tv/getAllCommands/');
+  final response = await http.get(getTvCommands);
+
+  if (response.statusCode == 200) {
+    return tvCommandsFromJson(response.body);
+  } else {
+    throw Exception('Failed to get tv commands');
+  }
+}
+
+Future<http.Response> runTvCommand(TvCommand command, String ip, String port) {
+  Uri runTvCommandPath =
+      Uri.parse(httpPrefix + ip + ':' + port + '/api/tv/runCommand/');
+  return http.post(runTvCommandPath,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'name': command.name!,
+        'content': command.content!
+      }));
 }
