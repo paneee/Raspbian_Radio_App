@@ -114,7 +114,6 @@ class _PageSettingsState extends State<PageSettings> {
                               )),
                           Column(
                             children: [
-                             
                               Row(children: [
                                 Flexible(
                                   child: Container(
@@ -151,8 +150,8 @@ class _PageSettingsState extends State<PageSettings> {
                                             return "Enter correct port number";
                                           } else {
                                             speakerPort = value.toString();
-                                            preferences.setString(
-                                                "speakerPort", value.toString());
+                                            preferences.setString("speakerPort",
+                                                value.toString());
                                             controllerSpeakerPort.text =
                                                 radioPort!;
                                             return null;

@@ -72,57 +72,23 @@ class _PageRadioState extends State<PageRadio> {
                                 );
                               },
                             ))),
-                    Column(
-                      children: [
-                        Container(
-                            alignment: Alignment.centerRight,
-                            margin: EdgeInsets.only(right: 50, bottom: 10),
-                            child: Text(
-                              "Speaker",
-                              textAlign: TextAlign.right,
-                            )),
-                        Container(
-                          margin: EdgeInsets.only(right: 30.0, left: 30.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  child: CustomButton(
-                                    onClick: () {
-                                      setState(() {
-                                        speakerToggle(ip!, speakerPort!);
-                                      });
-                                    },
-                                    btnText: "On Off",
-                                  ),
-                                ),
-                                Container(
-                                  child: CustomButton(
-                                    onClick: () {
-                                      setState(() {
-                                        speakerVolumeDOWN(ip!, speakerPort!);
-                                      });
-                                    },
-                                    btnText: "Vol -",
-                                  ),
-                                ),
-                                Container(
-                                  child: CustomButton(
-                                    onClick: () {
-                                      setState(() {
-                                        speakerVolumeUP(ip!, speakerPort!);
-                                      });
-                                    },
-                                    btnText: "Vol +",
-                                  ),
-                                ),
-                              ]),
-                        ),
-                        Container(
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(right: 50, bottom: 10),
-                        ),
-                        Container(
+                    Expanded(
+                        child: SingleChildScrollView(
+                            child: ConstrainedBox(
+                      constraints: BoxConstraints(),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Container(
+                              alignment: Alignment.centerRight,
+                              margin: EdgeInsets.only(
+                                  top: 25, right: 50, bottom: 10),
+                              child: Text(
+                                "Speaker",
+                                textAlign: TextAlign.right,
+                              )),
+                          Container(
                             margin: EdgeInsets.only(right: 30.0, left: 30.0),
                             child: Row(
                                 mainAxisAlignment:
@@ -132,159 +98,117 @@ class _PageRadioState extends State<PageRadio> {
                                     child: CustomButton(
                                       onClick: () {
                                         setState(() {
-                                          speakerBtConnect(ip!, speakerPort!);
+                                          speakerToggle(ip!, speakerPort!);
                                         });
                                       },
-                                      btnText: "Bt Connect",
+                                      btnText: "On Off",
                                     ),
                                   ),
                                   Container(
                                     child: CustomButton(
                                       onClick: () {
                                         setState(() {
-                                          speakerBtDisconnect(ip!, speakerPort!);
+                                          speakerVolumeDOWN(ip!, speakerPort!);
                                         });
                                       },
-                                      btnText: "Bt Disconnect",
+                                      btnText: "Vol -",
                                     ),
                                   ),
-                                ]))
-                      ],
-                    ),
-                    Column(children: [
-                      Container(
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(right: 50, bottom: 10),
-                          child: Text(
-                            "Station",
-                            textAlign: TextAlign.right,
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(right: 30.0, left: 30.0),
-                          child: FutureBuilder<List<WebRadio>>(
-                            //future: futureRadioList,
-                            future: getRadios(ip!, radioPort!),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                if ((snapshot.connectionState ==
-                                        ConnectionState.done) &&
-                                    (firstLoadDropDown == true)) {
-                                  for (WebRadio item in snapshot.data!) {
-                                    if (item.isPlaying == true) {
-                                      webRadioSelectedItem = item;
-                                    }
-                                  }
-                                  firstLoadDropDown = false;
-                                }
-
-                                return CustomDropdownWebRadio(
-                                  value: webRadioSelectedItem,
-                                  hint: Text(
-                                    "Select radio station",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
+                                  Container(
+                                    child: CustomButton(
+                                      onClick: () {
+                                        setState(() {
+                                          speakerVolumeUP(ip!, speakerPort!);
+                                        });
+                                      },
+                                      btnText: "Vol +",
+                                    ),
                                   ),
-                                  items: snapshot.data!.map((WebRadio value) {
-                                    return DropdownMenuItem<WebRadio>(
-                                      value: value,
-                                      child: Text(
-                                        value.name!,
+                                ]),
+                          ),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.only(right: 50, bottom: 10),
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(right: 30.0, left: 30.0),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      child: CustomButton(
+                                        onClick: () {
+                                          setState(() {
+                                            speakerBtConnect(ip!, speakerPort!);
+                                          });
+                                        },
+                                        btnText: "Bt Connect",
+                                      ),
+                                    ),
+                                    Container(
+                                      child: CustomButton(
+                                        onClick: () {
+                                          setState(() {
+                                            speakerBtDisconnect(
+                                                ip!, speakerPort!);
+                                          });
+                                        },
+                                        btnText: "Bt Disconnect",
+                                      ),
+                                    ),
+                                  ])),
+                          Container(
+                              alignment: Alignment.centerRight,
+                              margin: EdgeInsets.only(
+                                  top: 25, right: 50, bottom: 10),
+                              child: Text(
+                                "Radio",
+                                textAlign: TextAlign.right,
+                              )),
+                          Container(
+                              margin: EdgeInsets.only(right: 30.0, left: 30.0),
+                              child: FutureBuilder<List<WebRadio>>(
+                                //future: futureRadioList,
+                                future: getRadios(ip!, radioPort!),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    if ((snapshot.connectionState ==
+                                            ConnectionState.done) &&
+                                        (firstLoadDropDown == true)) {
+                                      for (WebRadio item in snapshot.data!) {
+                                        if (item.isPlaying == true) {
+                                          webRadioSelectedItem = item;
+                                        }
+                                      }
+                                      firstLoadDropDown = false;
+                                    }
+
+                                    return CustomDropdownWebRadio(
+                                      value: webRadioSelectedItem,
+                                      hint: Text(
+                                        "Select radio station",
                                         style: TextStyle(
                                             fontSize: 20,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (webRadio) {
-                                    setState(() {
-                                      webRadioSelectedItem = webRadio;
-                                    });
-                                  },
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text("No connection to the API swerer");
-                              }
-                              return CircularProgressIndicator();
-                            },
-                          ))
-                    ]),
-                    Column(children: [
-                      Container(
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(right: 50, bottom: 10),
-                          child: Text(
-                            "Control",
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(right: 30.0, left: 30.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(right: 10, left: 10),
-                                  child: CustomButton(
-                                    onClick: () {
-                                      setState(() {
-                                        playRadio(webRadioSelectedItem!, ip!,
-                                            radioPort!);
-                                      });
-                                    },
-                                    btnText: "   Play   ",
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(right: 10, left: 10),
-                                  child: CustomButton(
-                                    onClick: () {
-                                      setState(() {
-                                        stopRadio(ip!, radioPort!);
-                                      });
-                                    },
-                                    btnText: "   Stop   ",
-                                  ),
-                                ),
-                              ]))
-                    ]),
-                    Column(
-                      children: [
-                        Container(
-                            alignment: Alignment.centerRight,
-                            margin: EdgeInsets.only(right: 50, bottom: 10),
-                            child: Text(
-                              "Volume",
-                            )),
-                        Container(
-                            margin: EdgeInsets.only(
-                                bottom: 50.0, right: 30.0, left: 30.0),
-                            child: FutureBuilder<double>(
-                                future: getVolume(ip!, radioPort!),
-                                //future: futureVolume,
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    if ((snapshot.connectionState ==
-                                            ConnectionState.done) &&
-                                        (firstLoadSlider == true)) {
-                                      currentVolume = snapshot.data!;
-                                      firstLoadSlider = false;
-                                    }
-                                    return CustomSlider(
-                                      min: 0,
-                                      max: 100,
-                                      sliderHeight: 60,
-                                      fullWidth: true,
-                                      value: currentVolume,
-                                      onChanged: (volume) {
+                                      items:
+                                          snapshot.data!.map((WebRadio value) {
+                                        return DropdownMenuItem<WebRadio>(
+                                          value: value,
+                                          child: Text(
+                                            value.name!,
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (webRadio) {
                                         setState(() {
-                                          currentVolume = volume;
-                                        });
-                                      },
-                                      onChangeEnd: (_) {
-                                        setState(() {
-                                          setVolume(
-                                              currentVolume!, ip!, radioPort!);
+                                          webRadioSelectedItem = webRadio;
                                         });
                                       },
                                     );
@@ -293,9 +217,193 @@ class _PageRadioState extends State<PageRadio> {
                                         "No connection to the API swerer");
                                   }
                                   return CircularProgressIndicator();
-                                })),
-                      ],
-                    ),
+                                },
+                              )),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.only(right: 50, bottom: 10),
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(right: 30.0, left: 30.0),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      margin:
+                                          EdgeInsets.only(right: 10, left: 10),
+                                      child: CustomButton(
+                                        onClick: () {
+                                          setState(() {
+                                            playRadio(webRadioSelectedItem!,
+                                                ip!, radioPort!);
+                                          });
+                                        },
+                                        btnText: "   Play   ",
+                                      ),
+                                    ),
+                                    Container(
+                                      margin:
+                                          EdgeInsets.only(right: 10, left: 10),
+                                      child: CustomButton(
+                                        onClick: () {
+                                          setState(() {
+                                            stopRadio(ip!, radioPort!);
+                                          });
+                                        },
+                                        btnText: "   Stop   ",
+                                      ),
+                                    ),
+                                  ])),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.only(right: 50, bottom: 10),
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(right: 30.0, left: 30.0),
+                              child: FutureBuilder<double>(
+                                  future: getVolume(ip!, radioPort!),
+                                  //future: futureVolume,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      if ((snapshot.connectionState ==
+                                              ConnectionState.done) &&
+                                          (firstLoadSlider == true)) {
+                                        currentVolume = snapshot.data!;
+                                        firstLoadSlider = false;
+                                      }
+                                      return CustomSlider(
+                                        min: 0,
+                                        max: 100,
+                                        sliderHeight: 60,
+                                        fullWidth: true,
+                                        value: currentVolume,
+                                        onChanged: (volume) {
+                                          setState(() {
+                                            currentVolume = volume;
+                                          });
+                                        },
+                                        onChangeEnd: (_) {
+                                          setState(() {
+                                            setVolume(currentVolume!, ip!,
+                                                radioPort!);
+                                          });
+                                        },
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text(
+                                          "No connection to the API swerer");
+                                    }
+                                    return CircularProgressIndicator();
+                                  })),
+                          Container(
+                              alignment: Alignment.centerRight,
+                              margin: EdgeInsets.only(
+                                  top: 25, right: 50, bottom: 10),
+                              child: Text(
+                                "TV",
+                                textAlign: TextAlign.right,
+                              )),
+                          Container(
+                              margin: EdgeInsets.only(right: 30.0, left: 30.0),
+                              child: FutureBuilder<List<WebRadio>>(
+                                //future: futureRadioList,
+                                future: getRadios(ip!, radioPort!),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    if ((snapshot.connectionState ==
+                                            ConnectionState.done) &&
+                                        (firstLoadDropDown == true)) {
+                                      for (WebRadio item in snapshot.data!) {
+                                        if (item.isPlaying == true) {
+                                          webRadioSelectedItem = item;
+                                        }
+                                      }
+                                      firstLoadDropDown = false;
+                                    }
+
+                                    return CustomDropdownWebRadio(
+                                      value: webRadioSelectedItem,
+                                      hint: Text(
+                                        "Select tv command",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      items:
+                                          snapshot.data!.map((WebRadio value) {
+                                        return DropdownMenuItem<WebRadio>(
+                                          value: value,
+                                          child: Text(
+                                            value.name!,
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (webRadio) {
+                                        setState(() {
+                                          webRadioSelectedItem = webRadio;
+                                        });
+                                      },
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return Text(
+                                        "No connection to the API swerer");
+                                  }
+                                  return CircularProgressIndicator();
+                                },
+                              )),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.only(right: 50, bottom: 10),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: 30, left: 30),
+                            child: CustomButton(
+                              onClick: () {
+                                setState(() {
+                                  playRadio(
+                                      webRadioSelectedItem!, ip!, radioPort!);
+                                });
+                              },
+                              btnText: "   Run   ",
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.only(right: 50, bottom: 10),
+                          ),
+                          Container(
+                              alignment: Alignment.centerRight,
+                              margin: EdgeInsets.only(
+                                  top: 25, right: 50, bottom: 10),
+                              child: Text(
+                                "Light",
+                                textAlign: TextAlign.right,
+                              )),
+                          Container(
+                            margin: EdgeInsets.only(right: 30, left: 30),
+                            child: CustomButton(
+                              onClick: () {
+                                setState(() {
+                                  playRadio(
+                                      webRadioSelectedItem!, ip!, radioPort!);
+                                });
+                              },
+                              btnText: "   On / Off   ",
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.only(right: 50, bottom: 10),
+                          ),
+                        ],
+                      ),
+                    )))
                   ]);
             }));
   }
