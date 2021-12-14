@@ -124,7 +124,7 @@ Future<http.Response> speakerBtDisconnect(String ip, String port) {
   );
 }
 
-Future<List<TvCommand>> getTvCommands(String ip, String port) async {
+Future<List<ApiCommand>> getTvCommands(String ip, String port) async {
   Uri getTvCommands =
       Uri.parse(httpPrefix + ip + ':' + port + '/api/tv/getAllCommands/');
   final response = await http.get(getTvCommands);
@@ -136,9 +136,10 @@ Future<List<TvCommand>> getTvCommands(String ip, String port) async {
   }
 }
 
-Future<http.Response> runTvCommand(TvCommand command, String ip, String port) {
+Future<http.Response> runApiCommand(
+    ApiCommand command, String api, String ip, String port) {
   Uri runTvCommandPath =
-      Uri.parse(httpPrefix + ip + ':' + port + '/api/tv/runCommand/');
+      Uri.parse(httpPrefix + ip + ':' + port + '/api/' + api + '/runCommand/');
   return http.post(runTvCommandPath,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',

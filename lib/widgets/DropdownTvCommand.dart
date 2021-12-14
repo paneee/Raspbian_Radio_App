@@ -32,7 +32,7 @@ class _CustomDropdownTvCommandState extends State<CustomDropdownTvCommand> {
                 data: Theme.of(context).copyWith(
                   canvasColor: darkColor,
                 ),
-                child: DropdownButton<TvCommand>(
+                child: DropdownButton<ApiCommand>(
                   value: this.widget.value,
                   hint: this.widget.hint,
                   style: const TextStyle(color: Colors.white),

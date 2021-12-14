@@ -21,7 +21,10 @@ class PageRadio extends StatefulWidget {
 double? currentVolume;
 
 WebRadio? webRadioSelectedItem;
-TvCommand? tvCommandSelectedItem;
+ApiCommand? tvCommandSelectedItem;
+
+ApiCommand? lightCommand =
+    new ApiCommand(name: "toggleLight", content: "toggleLight_1");
 
 bool? firstLoadSlider;
 bool? firstLoadWebRadioDropDown;
@@ -31,13 +34,14 @@ Future<double>? futureVolume;
 Future<WebRadio>? futureActualPlaying;
 
 Future<List<WebRadio>>? futureRadioList;
-Future<List<TvCommand>>? fututeCommandList;
+Future<List<ApiCommand>>? fututeCommandList;
 
 Future<Settings>? futureSettings;
 String? ip;
 String? radioPort;
 String? speakerPort;
 String? tvPort = "5003";
+String? lightPort = "5004";
 String? color;
 
 class _PageRadioState extends State<PageRadio> {
@@ -314,21 +318,10 @@ class _PageRadioState extends State<PageRadio> {
                               )),
                           Container(
                               margin: EdgeInsets.only(right: 30.0, left: 30.0),
-                              child: FutureBuilder<List<TvCommand>>(
+                              child: FutureBuilder<List<ApiCommand>>(
                                 future: getTvCommands(ip!, tvPort!),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
-                                    if ((snapshot.connectionState ==
-                                            ConnectionState.done) &&
-                                        (firstLoadTvCommandDropDown == true)) {
-                                      // for (TvCommand item in snapshot.data!) {
-                                      //   if (item.isPlaying == true) {
-                                      //     webRadioSelectedItem = item;
-                                      //   }
-                                      // }
-                                      firstLoadTvCommandDropDown = false;
-                                    }
-
                                     return CustomDropdownTvCommand(
                                       value: tvCommandSelectedItem,
                                       hint: Text(
@@ -338,9 +331,9 @@ class _PageRadioState extends State<PageRadio> {
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      items:
-                                          snapshot.data!.map((TvCommand value) {
-                                        return DropdownMenuItem<TvCommand>(
+                                      items: snapshot.data!
+                                          .map((ApiCommand value) {
+                                        return DropdownMenuItem<ApiCommand>(
                                           value: value,
                                           child: Text(
                                             value.name!,
@@ -373,8 +366,8 @@ class _PageRadioState extends State<PageRadio> {
                             child: CustomButton(
                               onClick: () {
                                 setState(() {
-                                  runTvCommand(
-                                      tvCommandSelectedItem!, ip!, tvPort!);
+                                  runApiCommand(tvCommandSelectedItem!, 'tv',
+                                      ip!, tvPort!);
                                 });
                               },
                               btnText: "   Run   ",
@@ -397,8 +390,8 @@ class _PageRadioState extends State<PageRadio> {
                             child: CustomButton(
                               onClick: () {
                                 setState(() {
-                                  playRadio(
-                                      webRadioSelectedItem!, ip!, radioPort!);
+                                  runApiCommand(
+                                      lightCommand!, 'light', ip!, lightPort!);
                                 });
                               },
                               btnText: "   On / Off   ",

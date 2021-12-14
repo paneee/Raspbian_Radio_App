@@ -1,20 +1,21 @@
 import 'dart:convert';
 
-class TvCommand {
+class ApiCommand {
   String? name;
   String? content;
 
-  TvCommand({
+  ApiCommand({
     required this.name,
     required this.content,
   });
 
-  factory TvCommand.fromJson(Map<String, dynamic> json) {
-    return TvCommand(name: json['name'], content: json['content']);
+  factory ApiCommand.fromJson(Map<String, dynamic> json) {
+    return ApiCommand(name: json['name'], content: json['content']);
   }
 }
 
-List<TvCommand> tvCommandsFromJson(String str) =>
-    List<TvCommand>.from(json.decode(str).map((x) => TvCommand.fromJson(x)));
+List<ApiCommand> tvCommandsFromJson(String str) =>
+    List<ApiCommand>.from(json.decode(str).map((x) => ApiCommand.fromJson(x)));
 
-TvCommand tvCommandFromJson(String str) => TvCommand.fromJson(json.decode(str));
+ApiCommand tvCommandFromJson(String str) =>
+    ApiCommand.fromJson(json.decode(str));
