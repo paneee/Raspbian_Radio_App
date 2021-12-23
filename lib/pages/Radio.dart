@@ -38,10 +38,7 @@ Future<List<ApiCommand>>? fututeCommandList;
 
 Future<Settings>? futureSettings;
 String? ip;
-String? radioPort;
-String? speakerPort;
-String? tvPort = "5003";
-String? lightPort = "5004";
+String? port;
 String? color;
 
 class _PageRadioState extends State<PageRadio> {
@@ -64,8 +61,7 @@ class _PageRadioState extends State<PageRadio> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 ip = snapshot.data!.ip;
-                radioPort = snapshot.data!.radioPort;
-                speakerPort = snapshot.data!.speakerPort;
+                port = snapshot.data!.port;
                 color = snapshot.data!.color;
                 selectColor(color!);
               }
@@ -112,7 +108,7 @@ class _PageRadioState extends State<PageRadio> {
                                     child: CustomButton(
                                       onClick: () {
                                         setState(() {
-                                          speakerToggle(ip!, speakerPort!);
+                                          speakerToggle(ip!, port!);
                                         });
                                       },
                                       btnText: "On Off",
@@ -122,7 +118,7 @@ class _PageRadioState extends State<PageRadio> {
                                     child: CustomButton(
                                       onClick: () {
                                         setState(() {
-                                          speakerVolumeDOWN(ip!, speakerPort!);
+                                          speakerVolumeDOWN(ip!, port!);
                                         });
                                       },
                                       btnText: "Vol -",
@@ -132,7 +128,7 @@ class _PageRadioState extends State<PageRadio> {
                                     child: CustomButton(
                                       onClick: () {
                                         setState(() {
-                                          speakerVolumeUP(ip!, speakerPort!);
+                                          speakerVolumeUP(ip!, port!);
                                         });
                                       },
                                       btnText: "Vol +",
@@ -154,7 +150,7 @@ class _PageRadioState extends State<PageRadio> {
                                       child: CustomButton(
                                         onClick: () {
                                           setState(() {
-                                            speakerBtConnect(ip!, speakerPort!);
+                                            speakerBtConnect(ip!, port!);
                                           });
                                         },
                                         btnText: "Bt Connect",
@@ -164,8 +160,7 @@ class _PageRadioState extends State<PageRadio> {
                                       child: CustomButton(
                                         onClick: () {
                                           setState(() {
-                                            speakerBtDisconnect(
-                                                ip!, speakerPort!);
+                                            speakerBtDisconnect(ip!, port!);
                                           });
                                         },
                                         btnText: "Bt Disconnect",
@@ -183,7 +178,7 @@ class _PageRadioState extends State<PageRadio> {
                           Container(
                               margin: EdgeInsets.only(right: 30.0, left: 30.0),
                               child: FutureBuilder<List<WebRadio>>(
-                                future: getRadios(ip!, radioPort!),
+                                future: getRadios(ip!, port!),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     if ((snapshot.connectionState ==
@@ -248,7 +243,7 @@ class _PageRadioState extends State<PageRadio> {
                                         onClick: () {
                                           setState(() {
                                             playRadio(webRadioSelectedItem!,
-                                                ip!, radioPort!);
+                                                ip!, port!);
                                           });
                                         },
                                         btnText: "   Play   ",
@@ -260,7 +255,7 @@ class _PageRadioState extends State<PageRadio> {
                                       child: CustomButton(
                                         onClick: () {
                                           setState(() {
-                                            stopRadio(ip!, radioPort!);
+                                            stopRadio(ip!, port!);
                                           });
                                         },
                                         btnText: "   Stop   ",
@@ -274,10 +269,11 @@ class _PageRadioState extends State<PageRadio> {
                           Container(
                               margin: EdgeInsets.only(right: 30.0, left: 30.0),
                               child: FutureBuilder<double>(
-                                  future: getVolume(ip!, radioPort!),
+                                  future: getVolume(ip!, port!),
                                   //future: futureVolume,
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
+                                      print(snapshot.data);
                                       if ((snapshot.connectionState ==
                                               ConnectionState.done) &&
                                           (firstLoadSlider == true)) {
@@ -297,8 +293,8 @@ class _PageRadioState extends State<PageRadio> {
                                         },
                                         onChangeEnd: (_) {
                                           setState(() {
-                                            setVolume(currentVolume!, ip!,
-                                                radioPort!);
+                                            setVolume(
+                                                currentVolume!, ip!, port!);
                                           });
                                         },
                                       );
@@ -319,7 +315,7 @@ class _PageRadioState extends State<PageRadio> {
                           Container(
                               margin: EdgeInsets.only(right: 30.0, left: 30.0),
                               child: FutureBuilder<List<ApiCommand>>(
-                                future: getTvCommands(ip!, tvPort!),
+                                future: getTvCommands(ip!, port!),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     return CustomDropdownTvCommand(
@@ -366,8 +362,8 @@ class _PageRadioState extends State<PageRadio> {
                             child: CustomButton(
                               onClick: () {
                                 setState(() {
-                                  runApiCommand(tvCommandSelectedItem!, 'tv',
-                                      ip!, tvPort!);
+                                  runApiCommand(
+                                      tvCommandSelectedItem!, 'tv', ip!, port!);
                                 });
                               },
                               btnText: "   Run   ",
@@ -391,7 +387,7 @@ class _PageRadioState extends State<PageRadio> {
                               onClick: () {
                                 setState(() {
                                   runApiCommand(
-                                      lightCommand!, 'light', ip!, lightPort!);
+                                      lightCommand!, 'light', ip!, port!);
                                 });
                               },
                               btnText: "   On / Off   ",

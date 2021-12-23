@@ -31,8 +31,7 @@ class _SplashPageState extends State<SplashPage> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 ip = snapshot.data!.ip;
-                radioPort = snapshot.data!.radioPort;
-                speakerPort = snapshot.data!.speakerPort;
+                port = snapshot.data!.port;
                 selectedTheme = snapshot.data!.color;
 
                 selectColor(selectedTheme!);
